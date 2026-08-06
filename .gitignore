@@ -23,3 +23,6 @@ rust/*/python/ffi/target/
 rust/*/python/build/
 rust/*/python/*.egg-info/
 rust/*/python/*/dylib/*.so
+
+# Zugangsdaten des Betreibers — gehoeren nie ins Repository.
+owltrail.conf

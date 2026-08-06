@@ -22,6 +22,12 @@ Was hier drin liegt
 ``rust/``                    Die vier Rust-Crates, die die Engine braucht,
                              mit den Änderungen, die sie wieder baubar machen.
                              → `rust/README.md`_
+``absicht/wissen/``          Der Wissensspeicher je Bewerber — womit das
+                             Modell antwortet, wenn es antworten muss.
+                             → `WISSENSSPEICHER.md`_
+``absicht/lernen.py``        Wertet aus, was ans Modell ging, und schlägt
+                             daraus neue Absichten vor.
+                             → `LERNEN.md`_
 ``tools/build_rust_deps.sh`` Baut die Rust-Abhängigkeiten aus ``rust/``.
 ============================ =================================================
 
@@ -55,6 +61,8 @@ Stand
 394 Tests grün auf Python 3.13.14 mit numpy 2.5.1, scipy 1.18.0 und
 scikit-learn 1.9.0 — 48 für die Absichtsschicht, 346 für die Engine.
 
+.. _WISSENSSPEICHER.md: WISSENSSPEICHER.md
+.. _LERNEN.md: LERNEN.md
 .. _ABSICHTSSCHICHT.md: ABSICHTSSCHICHT.md
 .. _PYTHON_313.md: PYTHON_313.md
 .. _rust/README.md: rust/README.md
