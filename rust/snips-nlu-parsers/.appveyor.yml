@@ -1,0 +1,84 @@
+environment:
+  matrix:
+  - PYTHON: "C:\\Python36-x64"
+    TARGET: x86_64-pc-windows-msvc
+    TAG_SCENARIO: false
+  - PYTHON: "C:\\Python36-x64"
+    TARGET: x86_64-pc-windows-msvc
+    TAG_SCENARIO: true
+  - PYTHON: "C:\\Python37-x64"
+    TARGET: x86_64-pc-windows-msvc
+    TAG_SCENARIO: true
+  - PYTHON: "C:\\Python38-x64"
+    TARGET: x86_64-pc-windows-msvc
+    TAG_SCENARIO: true
+  - PYTHON: "C:\\Python36"
+    TARGET: i686-pc-windows-msvc
+    TAG_SCENARIO: true
+  - PYTHON: "C:\\Python37"
+    TARGET: i686-pc-windows-msvc
+    TAG_SCENARIO: true
+  - PYTHON: "C:\\Python38"
+    TARGET: i686-pc-windows-msvc
+    TAG_SCENARIO: true
+
+branches:
+  only:
+  - master
+
+install:
+  - appveyor-retry appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+  - rustup-init.exe -y --default-host %TARGET%
+  - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
+  - if defined MSYS2_BITS set PATH=%PATH%;C:\msys64\mingw%MSYS2_BITS%\bin
+  - rustc -V
+  - cargo -V
+  - ps: (Get-Content python/ffi/Cargo.toml) | ForEach-Object { $_ -replace "^snips-nlu-parsers-ffi-macros = .*$", "snips-nlu-parsers-ffi-macros = { path = `"../../ffi/ffi-macros`" }" } | Set-Content python/ffi/Cargo.toml
+  - "%PYTHON%\\python.exe -m pip install -r python/requirements.txt"
+
+build: false
+
+test_script:
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" cargo build --verbose
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" cargo test --all --verbose
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" cd python
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" %PYTHON%\\python.exe -m pip install -e . --verbose --install-option="--verbose"
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" %PYTHON%\\python.exe -m unittest discover
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" cd ..
+
+after_test:
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" appveyor exit
+  - ECHO "BUILDING WHEELS..."
+  - cd python
+  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+  - cd ..
+
+artifacts:
+  - path: python\dist\*
+    name: pypiartifacts
+
+deploy:
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  provider: GitHub
+  auth_token:
+    secure: Q6QElmu6htnldLRgDcG2J/BkmG3lFMKeqnYsb/o1bCHphWeDk6vJT+e5FRM4wB4d
+  artifact: pypiartifacts
+  on:
+    APPVEYOR_REPO_TAG: true
+
+for:
+-
+  # non-tagged scenario
+  matrix:
+    only:
+      - TAG_SCENARIO: false
+
+  skip_tags: true
+
+-
+  # tagged scenario
+  matrix:
+    only:
+      - TAG_SCENARIO: true
+
+  skip_non_tags: true

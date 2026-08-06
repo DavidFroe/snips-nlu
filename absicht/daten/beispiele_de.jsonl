@@ -1,0 +1,39 @@
+# Beispielnachrichten fuer einen ersten Durchlauf.
+#
+# ACHTUNG: Das sind NICHT die 253 Nachrichten aus dem Betrieb. Hier stehen
+# nur die Beispiele, die im Anforderungsdokument und im Auftrag woertlich
+# zitiert sind, plus naheliegende Schreibvarianten. Sie zeigen, dass das
+# Werkzeug laeuft — sie beweisen nichts ueber die Trefferquote.
+#
+# Sobald die annotierten Verlaeufe da sind, gehoert diese Datei ersetzt:
+#     python -m absicht.bewerten nachrichten.jsonl --fehler
+{"text": "Nein", "absicht": "ablehnung", "kontext": {"ref": "0096"}}
+{"text": "Nein bitte die andere zuerst", "absicht": "ablehnung", "kontext": {"ref": "0096"}}
+{"text": "nein, lieber die andere zuerst", "absicht": "ablehnung", "kontext": {"ref": "0096"}}
+{"text": "nee", "absicht": "ablehnung", "kontext": {"ref": "0096"}}
+{"text": "auf keinen fall", "absicht": "ablehnung", "kontext": {"ref": "0096"}}
+{"text": "lieber nicht", "absicht": "ablehnung", "kontext": {"ref": "0096"}}
+{"text": "JO", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ja", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ja, so passt das", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "passt so", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Der letzte Absatz ist mir zu lang", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096"}}
+{"text": "kannst du das anschreiben kürzer machen", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096"}}
+{"text": "die einleitung bitte anders formulieren", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096"}}
+{"text": "Hallo?", "absicht": "lebenszeichen", "kontext": {}}
+{"text": "bist du da!?!?", "absicht": "lebenszeichen", "kontext": {}}
+{"text": "huhu", "absicht": "lebenszeichen", "kontext": {}}
+{"text": "10 A nicht 10 KW", "absicht": "fachkorrektur", "kontext": {"ref": "0096"}}
+{"text": "kannst du 150 Ampere schreiben?", "absicht": "fachkorrektur", "kontext": {"ref": "0096"}}
+{"text": "ich muß ein Zeugnis löschen", "absicht": "unterlagen", "kontext": {"ref": "0096"}}
+{"text": "kann ich den lebenslauf tauschen", "absicht": "unterlagen", "kontext": {"ref": "0096"}}
+{"text": "okay danke", "absicht": "dank", "kontext": {}}
+{"text": "danke dir", "absicht": "dank", "kontext": {}}
+{"text": "vielen dank", "absicht": "dank", "kontext": {}}
+{"text": "Wieviele Bewerbungen sind zur Ansicht da?", "absicht": "statusfrage", "kontext": {}}
+{"text": "wie ist der stand", "absicht": "statusfrage", "kontext": {}}
+{"text": "solte ihre ausschreibung spezelle anforungen eahbebn", "absicht": "", "kontext": {}}
+{"text": "probiers ncohmal", "absicht": "", "kontext": {}}
+{"text": "Warum braucht ihr das Zeugnis überhaupt?", "absicht": "", "kontext": {"ref": "0096"}}
+{"text": "Ja", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe", "offener_dialog": true}}
+{"text": "Ja", "absicht": "", "kontext": {"ref": "0096"}}

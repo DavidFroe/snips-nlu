@@ -1,48 +1,68 @@
-Snips NLU
-=========
+Snips NLU + Absichtsschicht
+===========================
 
-.. image:: https://travis-ci.org/snipsco/snips-nlu.svg?branch=master
-   :target: https://travis-ci.org/snipsco/snips-nlu
+Ein Fork von `Snips NLU <https://github.com/snipsco/snips-nlu>`_, portiert auf
+Python 3.13, zusammen mit der Absichtsschicht des Bewerbungstrainers. Ein
+Repository, ein ``pip install``.
 
-.. image:: https://ci.appveyor.com/api/projects/status/github/snipsco/snips-nlu?branch=master&svg=true
-   :target: https://ci.appveyor.com/project/snipsco/snips-nlu
+Upstream ist seit Januar 2020 stehen geblieben: Version 0.20.2, Wheels bis
+cp38, und die beiden Rust-Bibliotheken darunter bauen auf einer aktuellen
+Toolchain nicht mehr. Beides ist hier repariert.
 
-.. image:: https://img.shields.io/pypi/v/snips-nlu.svg?branch=master
-   :target: https://pypi.python.org/pypi/snips-nlu
+Was hier drin liegt
+-------------------
 
-.. image:: https://img.shields.io/pypi/pyversions/snips-nlu.svg?branch=master
-   :target: https://pypi.python.org/pypi/snips-nlu
+============================ =================================================
+``absicht/``                 Die Absichtsschicht: entscheidet in unter 10 ms,
+                             ob eine Bewerbernachricht ohne Sprachmodell
+                             beantwortet werden kann.
+                             → `ABSICHTSSCHICHT.md`_
+``snips_nlu/``               Die portierte NLU-Engine.
+                             → `PYTHON_313.md`_
+``rust/``                    Die vier Rust-Crates, die die Engine braucht,
+                             mit den Änderungen, die sie wieder baubar machen.
+                             → `rust/README.md`_
+``tools/build_rust_deps.sh`` Baut die Rust-Abhängigkeiten aus ``rust/``.
+============================ =================================================
 
-.. image:: https://codecov.io/gh/snipsco/snips-nlu/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/snipsco/snips-nlu
+Die beiden Teile hängen nicht aneinander: Die Absichtsschicht läuft ohne die
+Engine, und sie ist genau so gebaut, dass die Engine später hinter ihrer
+unveränderten Schnittstelle eingehängt werden kann.
 
-.. image:: https://img.shields.io/twitter/url/http/shields.io.svg?style=social
-   :target: https://twitter.com/intent/tweet?text=Extract%20meaning%20from%20text%20with%20Snips%20NLU,%20an%20open%20source%20library%20written%20in%20python%20and%20rust&url=https://github.com/snipsco/snips-nlu&via=snips&hashtags=nlu,nlp,machinelearning,python,rustlang
+Installation
+------------
 
+Die Absichtsschicht allein — Standardbibliothek plus PyYAML, kein Rust:
 
-`Snips NLU <https://snips-nlu.readthedocs.io>`_ (Natural Language Understanding) is a Python library that allows to extract structured information from sentences written in natural language.
+.. code-block:: sh
 
-Summary
--------
+    pip install pyyaml
+    python -c "import absicht; print(absicht.pruefen('nein danke', kontext={'ref': '0096'}))"
 
-- `What is Snips NLU about ?`_
-- `Getting Started`_
+Die vollständige Installation mit NLU-Engine braucht eine
+`Rust-Toolchain <https://rustup.rs>`_:
 
-  - `System requirements`_
-  - `Installation`_
-  - `Language Resources`_
-- `API Usage`_
+.. code-block:: sh
 
-  - `Sample code`_
-  - `Command Line Interface`_
-- `Sample datasets`_
-- `Benchmarks`_
-- `Documentation`_
-- `Citing Snips NLU`_
-- `FAQ & Community`_
-- `Related content`_
-- `How do I contribute ?`_
-- `Licence`_
+    python -m venv .venv && source .venv/bin/activate
+    ./tools/build_rust_deps.sh
+    pip install -e ".[test]"
+    snips-nlu download de
+
+Stand
+-----
+
+383 Tests grün auf Python 3.13.14 mit numpy 2.5.1, scipy 1.18.0 und
+scikit-learn 1.9.0 — 37 für die Absichtsschicht, 346 für die Engine.
+
+.. _ABSICHTSSCHICHT.md: ABSICHTSSCHICHT.md
+.. _PYTHON_313.md: PYTHON_313.md
+.. _rust/README.md: rust/README.md
+
+Über Snips NLU
+--------------
+
+Alles ab hier stammt aus der ursprünglichen README und beschreibt die Engine.
 
 What is Snips NLU about ?
 -------------------------
@@ -96,25 +116,18 @@ Getting Started
 System requirements
 -------------------
 
-- Python 2.7 or Python >= 3.5
-- RAM: Snips NLU will typically use between 100MB and 200MB of RAM, depending on the language and the size of the dataset.
+- Python >= 3.9, tested on 3.13
+- RAM: Snips NLU will typically use between 100MB and 200MB of RAM, depending on the language and the size of the dataset. Measured on 3.13: 170MB for an inference-only process, of which 117MB is numpy, scipy and scikit-learn.
 
 
-------------
-Installation
-------------
+-------------------
+Installing the fork
+-------------------
 
-.. code-block:: python
-
-    pip install snips-nlu
-
-We currently have pre-built binaries (wheels) for ``snips-nlu`` and its
-dependencies for MacOS (10.11 and later), Linux x86_64 and Windows.
-
-For any other architecture/os `snips-nlu` can be installed from the source
-distribution. To do so, `Rust <https://www.rust-lang.org/en-US/install.html>`_
-and `setuptools_rust <https://github.com/PyO3/setuptools-rust>`_ must be
-installed before running the ``pip install snips-nlu`` command.
+See the installation section at the top of this file. The pre-built wheels
+published upstream stop at cp38, so this fork builds its Rust dependencies
+from the sources vendored under ``rust/`` — a
+`Rust toolchain <https://rustup.rs>`_ is required.
 
 ------------------
 Language resources

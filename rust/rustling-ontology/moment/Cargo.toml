@@ -1,0 +1,19 @@
+[package]
+name = "rustling-ontology-moment"
+version = "0.19.3"
+authors = ["hdlj <hubert.delajonquiere@snips.net>"]
+edition = "2018"
+
+[dependencies]
+chrono = "=0.4.8"
+derive-new = "0.5"
+enum_primitive = "0.1"
+failure = "0.1"
+vec_map = "0.8"
+
+[dev-dependencies]
+bencher = "0.1"
+
+[[bench]]
+name = "example"
+harness = false

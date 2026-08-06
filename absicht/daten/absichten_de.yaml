@@ -1,0 +1,244 @@
+# Die Absichten, die heute erkannt werden — ausgezaehlt an 253 echten
+# Nachrichten aus dem Betrieb. Diese Datei gehoert dem Bediener: sie laesst
+# sich erweitern, ohne eine Zeile Python anzufassen.
+#
+# kurzbefehle   Nachrichten, die genau so lauten. Treffer hier sind stark
+#               genug fuer den Weg "direkt".
+# wendungen     Wortgruppen, die im laengeren Text vorkommen muessen — alle
+#               Woerter, in beliebiger Reihenfolge. Treffer hier reichen in
+#               der Regel fuer "aufbereitet".
+# aktion        Was der Aufrufer tun soll. null heisst: nur antworten.
+# folgenreich   true fuer alles, was verschickt, loescht oder freigibt. Diese
+#               Absichten brauchen 0,95 statt 0,80.
+# braucht_bezug ohne "ref" im Kontext nicht anwendbar.
+# braucht_letzte_frage
+#               ohne "letzte_frage" im Kontext bedeutungslos. Ein "ja" ins
+#               Leere ist keine Zustimmung.
+# verneinung_schliesst_aus
+#               steht ein Verneinungswort in der Nachricht, ist diese Absicht
+#               ausgeschlossen. Die harte Grenze aus dem Anforderungsdokument.
+
+verneinung:
+  # Steht eines dieser Woerter in der Nachricht, kann sie keine Zustimmung
+  # sein. Siehe die harte Grenze in absicht/entscheidung.py.
+  - nein
+  - nee
+  - ne
+  - noe
+  - nicht
+  - kein
+  - keine
+  - keinen
+  - keinesfalls
+  - niemals
+  - nix
+  - nichts
+
+absichten:
+
+  ablehnung:
+    aktion: ablehnen
+    folgenreich: false
+    braucht_bezug: true
+    kurzbefehle:
+      - nein
+      - nee
+      - ne
+      - noe
+      - nein danke
+      - nein bitte nicht
+      - negativ
+      - auf keinen fall
+      - lieber nicht
+      - bloss nicht
+      - eher nicht
+      - will ich nicht
+      - lass mal
+      - lieber die andere
+    wendungen:
+      - [lieber, nicht]
+      - [nicht, nehmen]
+      - [nicht, schicken]
+      - [nicht, abschicken]
+      - [andere, zuerst]
+      - [die, andere, zuerst]
+      - [raus, nehmen]
+      - [weg, damit]
+
+  zustimmung:
+    aktion: freigeben
+    folgenreich: true
+    braucht_bezug: true
+    braucht_letzte_frage: true
+    verneinung_schliesst_aus: true
+    kurzbefehle:
+      - ja
+      - jo
+      - joa
+      - jep
+      - jup
+      - jawohl
+      - klar
+      - alles klar
+      - passt
+      - passt so
+      - so passt das
+      - ja so passt das
+      - einverstanden
+      - genau
+      - richtig
+      - stimmt
+      - gerne
+      - mach das
+      - kann raus
+      - freigabe
+      - freigegeben
+      - abschicken
+    wendungen:
+      - [so, passt]
+      - [kann, raus]
+      - [kannst, abschicken]
+      - [ist, gut, so]
+
+  anschreiben_aendern:
+    aktion: null
+    folgenreich: false
+    llm_auftrag:
+      zweck: textaenderung
+      prompt_bausteine: [persona, anschreiben_aktuell]
+      weglassen: [werkzeuge, bewerbungsliste, verhaltensregeln]
+    wendungen:
+      - [absatz, lang]
+      - [absatz, kurz]
+      - [absatz, weg]
+      - [absatz, aendern]
+      - [anschreiben, aendern]
+      - [anschreiben, kuerzer]
+      - [anschreiben, laenger]
+      - [anschreiben, neu]
+      - [text, kuerzer]
+      - [text, aendern]
+      - [zu, lang]
+      - [zu, kurz]
+      - [zu, foermlich]
+      - [neu, formulieren]
+      - [anders, formulieren]
+      - [umschreiben]
+      - [einleitung, aendern]
+      - [schluss, aendern]
+
+  lebenszeichen:
+    aktion: null
+    folgenreich: false
+    kurzbefehle:
+      - hallo
+      - hallo?
+      - hallo??
+      - hey
+      - huhu
+      - bist du da
+      - bist du noch da
+      - bist du da?
+      - jemand da
+      - lebst du noch
+      - geht es weiter
+      - was ist los
+      - immer noch nichts
+    wendungen:
+      - woerter: [bist, du, da]
+        sicherheit: 0.90
+      - woerter: [jemand, da]
+        sicherheit: 0.90
+
+  fachkorrektur:
+    aktion: null
+    folgenreich: false
+    llm_auftrag:
+      zweck: fachliche_korrektur
+      prompt_bausteine: [persona, anschreiben_aktuell, fachangaben]
+      weglassen: [werkzeuge, bewerbungsliste, verhaltensregeln]
+    wendungen:
+      - [nicht, kw]
+      - [nicht, kilowatt]
+      - [ampere]
+      - [ampere, schreiben]
+      - [nicht, sondern]
+      - [muss, heissen]
+      - [falsche, angabe]
+      - [stimmt, nicht, sondern]
+
+  unterlagen:
+    aktion: null
+    folgenreich: false
+    braucht_bezug: true
+    llm_auftrag:
+      zweck: unterlagen
+      prompt_bausteine: [persona, unterlagenliste]
+      weglassen: [werkzeuge, bewerbungsliste, verhaltensregeln]
+    wendungen:
+      # Wer "Zeugnis" und "loeschen" schreibt, meint genau das. Diese
+      # Wortpaare sind eindeutig genug fuer eine eigene Antwort mit Link ins
+      # Portal — das spart den Modellaufruf ganz.
+      - woerter: [zeugnis, loeschen]
+        sicherheit: 0.85
+      - woerter: [zeugnis, entfernen]
+        sicherheit: 0.85
+      - woerter: [zeugnis, tauschen]
+        sicherheit: 0.85
+      - woerter: [lebenslauf, aendern]
+        sicherheit: 0.85
+      - woerter: [lebenslauf, tauschen]
+        sicherheit: 0.85
+      - woerter: [unterlagen, aendern]
+        sicherheit: 0.85
+      - woerter: [dokument, loeschen]
+        sicherheit: 0.85
+      - woerter: [foto, tauschen]
+        sicherheit: 0.85
+      - [zeugnis, neu]
+      - [lebenslauf, neu]
+      - [bescheinigung]
+      - woerter: [zeugnis]
+        sicherheit: 0.70
+      - woerter: [lebenslauf]
+        sicherheit: 0.70
+
+  dank:
+    aktion: null
+    folgenreich: false
+    kurzbefehle:
+      - danke
+      - danke dir
+      - dankeschoen
+      - vielen dank
+      - besten dank
+      - merci
+      - okay danke
+      - ok danke
+      - alles klar danke
+      - passt danke
+      - super danke
+      - top danke
+    wendungen:
+      - woerter: [danke]
+        sicherheit: 0.90
+      - woerter: [dankeschoen]
+        sicherheit: 0.90
+
+  statusfrage:
+    aktion: null
+    folgenreich: false
+    llm_auftrag:
+      zweck: auskunft
+      prompt_bausteine: [persona, bewerbungsliste]
+      weglassen: [werkzeuge, anschreiben_aktuell, verhaltensregeln]
+    wendungen:
+      - [wieviele, bewerbungen]
+      - [wie, viele, bewerbungen]
+      - [zur, ansicht]
+      - [wie, weit]
+      - [wie, ist, der, stand]
+      - [was, ist, der, stand]
+      - [wie, laeuft]
+      - woerter: [stand]
+        sicherheit: 0.62

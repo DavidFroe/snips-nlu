@@ -64,6 +64,11 @@ setup(name=about["__title__"],
       },
       install_requires=required,
       extras_require=extras_require,
+      package_data={
+          # Die Absichten und die Antwortbibliothek gehoeren dem Bediener und
+          # muessen im installierten Paket liegen, damit er sie findet.
+          "absicht": ["daten/*.yaml", "daten/*.jsonl"],
+      },
       python_requires=">=3.9",
       classifiers=[
           "Programming Language :: Python :: 3",

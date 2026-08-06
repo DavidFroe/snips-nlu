@@ -15,3 +15,11 @@
 .coverage
 pylint.log
 .DS_Store
+
+# Rust-Bauartefakte der vendorten Crates
+rust/*/target/
+rust/*/python/target/
+rust/*/python/ffi/target/
+rust/*/python/build/
+rust/*/python/*.egg-info/
+rust/*/python/*/dylib/*.so

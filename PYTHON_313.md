@@ -11,8 +11,10 @@ Verified on Python 3.13.14 with numpy 2.5.1, scipy 1.18.0, scikit-learn 1.9.0:
 
 ## Installing
 
-The two Rust-backed dependencies have no wheels beyond cp38 and their source
-builds fail for reasons unrelated to Python, so they need to be built first:
+The two Rust-backed dependencies have no wheels beyond cp38 and their
+published sources do not build on a current toolchain. Both are vendored under
+`rust/` with the changes that fix them, so the whole stack installs from this
+one clone:
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
@@ -21,21 +23,14 @@ pip install -e ".[test]"
 snips-nlu download en               # and/or: download-all-languages
 ```
 
-### Why the Rust dependencies need a script
+What was wrong with those two packages, and what the vendored copies change,
+is documented in [rust/README.md](rust/README.md). The short version: a build
+dependency that was never declared, and a crate version that has been yanked
+from crates.io.
 
-* `snips-nlu-utils` does not declare `setuptools-rust` as a build dependency,
-  so pip's isolated build environment cannot find it. Building with
-  `--no-build-isolation` after installing `setuptools-rust` works.
-* `snips-nlu-parsers` depends on `gazetteer-entity-parser` 0.8.0 and
-  `rustling-ontology` 0.19.3, both requiring `rmp-serde ^0.13`. **Every 0.13.x
-  release has since been yanked from crates.io**, so cargo cannot resolve a
-  version at all — the build fails before it reaches any Python code. The
-  script bumps both crates to `rmp-serde 1` (the API these crates use is
-  unchanged) and redirects them with `[patch]` sections.
-
-The patched crates live in `build-deps/`. If you want a reproducible install
-without the script, fork those three Snips repos with the `rmp-serde` bump
-applied and depend on the forks directly.
+The Python side of both packages also used `future`, which no longer imports
+on 3.12+. That is stripped in the vendored copies, so nothing in this
+repository depends on `future` any more.
 
 ---
 

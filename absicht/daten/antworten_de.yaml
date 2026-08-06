@@ -1,0 +1,39 @@
+# Die Antwortbibliothek. Sie gehoert dem Bediener, nicht dem Entwickler:
+# Aendern, ergaenzen und umformulieren geht hier, ohne dass jemand Code
+# anfassen muss.
+#
+# Mehrere Antworten je Absicht sind Absicht. Ein System, das auf "danke"
+# immer denselben Satz sagt, wird nach dem dritten Mal als Maschine erkannt —
+# und der Bewerber hoert auf zu schreiben.
+#
+# In den Texten duerfen Platzhalter in geschweiften Klammern stehen. Gefuellt
+# werden sie aus dem Kontext, den der Aufrufer uebergibt ({ref}, {portal},
+# {nutzer} ...). Fehlt ein Platzhalter, wird die Antwort uebersprungen und
+# eine andere genommen — die Schicht baut keine halben Saetze.
+
+ablehnung:
+  - "Verstanden, dann lassen wir die."
+  - "Alles klar, die nehmen wir raus."
+  - "Okay, die ist raus."
+  - "Gut, dann streichen wir die."
+
+zustimmung:
+  - "Alles klar, dann geht die so raus."
+  - "Verstanden, ich gebe sie frei."
+  - "Gut, dann machen wir das so."
+
+lebenszeichen:
+  - "Ja, ich bin da. Was brauchst du?"
+  - "Bin da. Woran haengt es?"
+  - "Hier bin ich — sag, was du brauchst."
+  - "Ja, ich lese mit. Was kann ich tun?"
+
+dank:
+  - "Gern."
+  - "Immer gerne."
+  - "Kein Problem."
+  - "Passt, meld dich einfach."
+
+unterlagen:
+  - "Deine Unterlagen kannst du hier selbst aendern: {portal}/bewerbung/{ref}/unterlagen"
+  - "Das geht direkt im Portal: {portal}/bewerbung/{ref}/unterlagen"

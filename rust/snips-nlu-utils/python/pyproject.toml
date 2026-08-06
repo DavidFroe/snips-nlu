@@ -1,0 +1,7 @@
+# Declares the build backend and its requirements so that pip can build this
+# package inside an isolated environment. Without it, setup.py imports
+# setuptools_rust before anything installed it and the build fails on
+# ModuleNotFoundError.
+[build-system]
+requires = ["setuptools>=61", "setuptools-rust>=1.7", "wheel"]
+build-backend = "setuptools.build_meta"

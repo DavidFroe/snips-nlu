@@ -1,3 +1,6 @@
 recursive-include snips_nlu_samples *
 include snips_nlu/data/.gitignore
+recursive-include absicht/daten *.yaml *.jsonl
 global-exclude __pycache__ *.py[cod]
+prune rust/*/target
+prune rust/*/python/build

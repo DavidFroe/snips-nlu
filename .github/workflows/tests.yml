@@ -2,24 +2,43 @@ name: tests
 
 on:
   push:
-    branches: [master, py313]
+    branches: [master, python-3.13]
   pull_request:
 
 jobs:
-  test:
+  # Die Absichtsschicht haengt an nichts ausser PyYAML. Sie laeuft in einer
+  # Minute durch, waehrend der Rust-Build noch baut — und sie ist der Teil,
+  # der ausgeliefert wird.
+  absicht:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --upgrade pip pyyaml pytest
+      - run: python -m pytest absicht/tests -q
+      - name: Beispielnachrichten durchlaufen lassen
+        run: python -m absicht.bewerten absicht/daten/beispiele_de.jsonl
+
+  engine:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.13"]
+
     env:
       LANG: en_US.UTF-8
       PYTHONIOENCODING: UTF-8
-      # The gazetteer entity resources are still served by the unmaintained
-      # Snips CloudFront distribution, whose certificate no longer matches
-      # resources.snips.ai. See insecure_download_enabled in
-      # snips_nlu/cli/utils.py
+      # Die Gazetteer-Entities liegen noch auf der Snips-CloudFront-Verteilung,
+      # deren Zertifikat nicht mehr auf resources.snips.ai passt. Siehe
+      # insecure_download_enabled in snips_nlu/cli/utils.py
       SNIPS_NLU_INSECURE_DOWNLOAD: "1"
 
     steps:
@@ -31,16 +50,21 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - name: Install snips-nlu and its test dependencies
-        run: |
-          python -m pip install --upgrade pip setuptools setuptools-rust wheel
-          python -m pip install -e ".[test]"
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust/snips-nlu-parsers -> target
 
-      - name: Download language resources
+      - name: Rust-Abhaengigkeiten aus rust/ bauen
+        run: ./tools/build_rust_deps.sh
+
+      - name: snips-nlu installieren
+        run: python -m pip install -e ".[test]"
+
+      - name: Sprachressourcen laden
         run: |
           snips-nlu download-all-languages
           snips-nlu download-language-entities en
           snips-nlu download-language-entities fr
 
-      - name: Run tests
+      - name: Tests
         run: python -m pytest snips_nlu/tests --ignore=snips_nlu/tests/integration_test.py -q

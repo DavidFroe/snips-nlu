@@ -1,0 +1,46 @@
+[package]
+name = "snips-nlu-parsers"
+version = "0.4.3"
+authors = ["Adrien Ball <adrien.ball@snips.ai>"]
+edition = "2018"
+
+[workspace]
+members = [
+    ".",
+    "ffi",
+    "ffi/ffi-macros",
+    "python/ffi"
+]
+
+[dependencies]
+failure = "0.1"
+itertools = "0.8"
+lazy_static = "1"
+regex = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+gazetteer-entity-parser = { git = "https://github.com/snipsco/gazetteer-entity-parser", tag = "0.8.0" }
+rustling-ontology = { git = "https://github.com/snipsco/rustling-ontology", tag = "0.19.3" }
+snips-nlu-ontology = { git = "https://github.com/snipsco/snips-nlu-ontology", tag = "0.67.1" }
+snips-nlu-utils = { git = "https://github.com/snipsco/snips-nlu-utils", tag = "0.9.1" }
+
+[dev-dependencies]
+tempfile = "3.0"
+
+# The crates below pin rmp-serde ^0.13, and every 0.13.x release has been
+# yanked from crates.io, so cargo cannot resolve them at all. The copies
+# vendored next to this one carry the bump to rmp-serde 1; these sections
+# redirect every reference — including the ones reached through the upstream
+# git dependencies — to the vendored sources.
+[patch."https://github.com/snipsco/gazetteer-entity-parser"]
+gazetteer-entity-parser = { path = "../gazetteer-entity-parser" }
+
+[patch."https://github.com/snipsco/rustling-ontology"]
+rustling-ontology = { path = "../rustling-ontology" }
+
+[patch."https://github.com/snipsco/snips-nlu-utils"]
+snips-nlu-utils = { path = "../snips-nlu-utils" }
+
+[patch."https://github.com/snipsco/snips-nlu-parsers"]
+snips-nlu-parsers = { path = "." }
+snips-nlu-parsers-ffi-macros = { path = "ffi/ffi-macros" }
