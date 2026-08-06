@@ -16,11 +16,32 @@ with io.open(os.path.join(root, "snips_nlu", "__about__.py"),
 with io.open(os.path.join(root, "README.rst"), encoding="utf8") as f:
     readme = f.read()
 
+# Was die Absichtsschicht braucht — und sonst nichts.
+#
+# Bis zum 06.08.2026 stand hier alles zusammen, auch `snips-nlu-parsers`
+# und `snips-nlu-utils`. Beide sind Rust-Erweiterungen; ohne installierten
+# Rust-Compiler bricht `pip install` ab:
+#
+#     error: can't find Rust compiler
+#     ERROR: Failed building wheel for snips-nlu-parsers
+#
+# Damit war die Schicht auf jedem Rechner ohne Rust-Werkzeugkette
+# unbrauchbar — auch dort, wo nur das Woerterbuch gebraucht wird, das mit
+# der Standardbibliothek auskommt. Genau der Fall im Bewerbungstrainer:
+# Die Engine ist die Kuer, das Woerterbuch die Pflicht.
+#
+# Wer die Engine will, nimmt `pip install .[engine]` und braucht dann
+# Rust. Wer die Schicht will, braucht nichts weiter.
 required = [
+    "pyaml>=17.0",
+]
+
+# Die NLU-Engine. Rust-Werkzeugkette noetig:
+#     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+engine_require = [
     "deprecation>=2.0,<3.0",
     "num2words>=0.5.6",
     "numpy>=1.26",
-    "pyaml>=17.0",
     "requests>=2.0,<3.0",
     "scikit-learn>=1.4",
     "scipy>=1.11,<2.0",
@@ -30,6 +51,7 @@ required = [
 ]
 
 extras_require = {
+    "engine": engine_require,
     "doc": [
         "sphinx>=1.8,<1.9",
         "sphinxcontrib-napoleon>=0.6.1,<0.7",

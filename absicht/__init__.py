@@ -25,7 +25,7 @@ from absicht import protokoll as _protokoll
 from absicht.antworten import Antwortbibliothek
 from absicht.entscheidung import (
     WEG_AUFBEREITET, WEG_DIREKT, WEG_DURCHREICHEN, entscheiden,
-    verneinung_sperrt)
+    verneinung_sperrt, zu_lang)
 from absicht.erkenner.woerterbuch import WoerterbuchErkenner
 from absicht.konfiguration import Konfiguration
 
@@ -76,10 +76,12 @@ class Schicht:
         erkannt = [
             t for t in self.erkenner.erkennen(text or "")
             if t.absicht in self.absichten]
-        # Die harte Grenze wird hier gezogen, nicht im Erkenner: sie muss
-        # gelten, egal wer unter der Naht arbeitet.
+        # Die harten Grenzen werden hier gezogen, nicht im Erkenner: sie
+        # muessen gelten, egal wer unter der Naht arbeitet.
         treffer, gestrichen = verneinung_sperrt(
             erkannt, text, self.absichten, self.verneinung)
+        treffer, zu_lang_gestrichen = zu_lang(treffer, text, self.absichten)
+        gestrichen = gestrichen + zu_lang_gestrichen
         ergebnis, spuren = entscheiden(
             treffer, kontext, nutzer, self.absichten, self.antworten,
             self.konfiguration)

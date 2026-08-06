@@ -1,0 +1,193 @@
+# Echte Bewerbernachrichten aus dem laufenden Betrieb — anonymisiert.
+#
+# Das ist der Nachweis aus Schritt 3 des Auftrags. Nummern, Anschriften,
+# Mailadressen, Links und Firmennamen sind maskiert (‹nummer›, ‹anschrift›,
+# ‹ort›, ‹mail›, ‹link›, ‹firma›); die Satzstruktur bleibt erhalten, damit
+# die Erkennung dieselbe Aufgabe hat wie im Betrieb.
+#
+# Tippfehler sind ABSICHTLICH nicht bereinigt. „probiers ncohmal", „was
+# fehtl hier", „ädner das bittte" — so schreiben die Leute, und eine
+# Erkennung, die nur sauberes Schriftdeutsch versteht, ist hier wertlos.
+#
+# `absicht: ""` heisst: gehoert ans Modell. Das ist kein fehlendes Etikett,
+# sondern das richtige Ergebnis — rund die Haelfte der Nachrichten sind
+# inhaltliche Wuensche, die Sprache brauchen.
+#
+# Der Kontext ist fuer alle gleich gesetzt (eine laufende Bewerbung, eine
+# offene Frage). Das ist die haeufigste Lage im Betrieb.
+
+{"text": "Der letzte Absatz ist mir zu lang. Mach den bitte kürzer.", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ja, so passt das. Bitte übernehmen.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Die Anrede soll persönlicher klingen.", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bist du da?", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "kannst  du 150 Ampere schreiben?", "absicht": "fachkorrektur", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ich würde gern änder.. es war ein 150 Amper brücke", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hallo?", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bier FPGA programierung hab ich Xilinx, Altera unsd Lattice gemacht.. kansnt du das bitte ändern", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bist du da!?!?", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "probiers ncohmal", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bei horizont group entwickelte ich Weidezaungeräte mit Hochspannungsgeneratoren und integrierte ein Energiemanagement‑System, das den Strombedarf von bis zu 10 A bei 10 kV sicher steuert – ein direkter Transfer zu Ihren Anforderungen an HV‑Schaltungen.  A nicht KW", "absicht": "fachkorrektur", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "solte ihre ausschreibung spezelle anforungen eahbebn.. da scheiben wir:  ihre auschreibung beihaltt spzelle anforderung in .. bla bla", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Sollte Ihre Ausschreibung spezielle Anforderungen an NFC‑ oder BLE‑Integration enthalten, plane ich, mein Wissen in diesen Bereichen durch gezielte Schulungen und Praxisprojekte zu vertiefen.\r\n\r\n  diese nabschnit bitte überasbeten.. es sol nciht \"sollte \"  sein. .sonder es wurde im der auschrebung erwähnt", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "10 A nicht 10 KW ädner das bittte im anaschreiben", "absicht": "fachkorrektur", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "CAD‑Systemen (SolidWorks, CATIA) und Programmierkenntnissen (C, Python, VHDL), erlaubt es mir, komplexe Steu   hab kein keintnist in cat systemen eigenlch nciht....", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Wievile Bewerbungen sind zur Ansicht da?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "wassen hier lios:   [Name des Ansprechpartners, falls bekannt, sonst weglassen] ‹firma› GmbH [Bürostraße, falls bekannt] [PLZ und Ort]\r\n\r\nVellmar, 10.05.2026\r\n\r\nBewerbung als Embedded Systems Engineer (Referenz 0039) Herrn [Nachname] oder Sehr geehrte Damen und Herren,\r\n\r\ndie Kombination aus fundierter Embedded-Software-Entwicklung und tiefem Verständnis für die Hardware-Integration ist der Schlüssel zu robusten und effizienten Systemen. Genau diese Schnittstelle zwischen Mikrocontroller-Design, Leistungselektronik und Firmware-Implementierung macht mich zum idealen Kandidaten für die Position des Embedded Systems Engineers in Ihrem Team in Hannover. Da ich bereits durch ‹firma› erfolgreich in Projekten bei namhaften Kunden wie KNDS und ‹firma› eingebunden war, kenne ich Ihre Unternehmenskultur und Arbeitsweisen bereits und freue mich auf eine langfristige Zusa   da sterht Herr [ Nachname ]", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "vielleicht mal das anschreibn neu generieren?  ..warshclch alter stand", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bioe der ist die fusszeile dopplel .. die shcint nochmla im anschreiben zu sein: Dipl.-Ing. David Frölich ‹anschrift›, ‹ort›-Weimar E-Mail: ‹mail› | Telefon: ‹nummer›  ist aber normalerweis ja im dokument", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "gung. Über Ihre Einladung zu einem Vorstellungsgespräch freue ich mich sehr.\r\n\r\nMit freundlichen Grüßen\r\n\r\nDipl.-Ing. David Frölich ‹anschrift›, ‹ort›-Weimar E-Mail: ‹mail› | Telefon: ‹nummer›\r\n\r\n\r\nDIE FUSS ZIELE IST IM ANSCHREIBEN DRIN... DAS MACHT KEINE SIN SI IST EH NOCHMLA UNTEN IM DOUM ENB.. AUCH OBEN DER BETRAFF IST NICXHT RICHTGI", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "JO", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "die betreffziel ist zu viel in dem dukument: Betreff: Bewerbung als Software-Entwickler Embedded Systems (m/w/d) – Wehrtechnik | Referenz: 0002", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "der Betrreff ist zu viel mach den weg", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "BIE DER BEWERBUNG IST DAS BETREFF ZU VILE: ‹ort›\r\nBewerbung als Systemingenieur Hochvolt und Bordnetz Architektur (m/w/d)\r\nBetreff: Bewerbung als Systemingenieur Hochvolt- und Bordnetzarchitektur (m/w/d) – Referenz 0045\r\n\r\n07.05.2026\r\n\r\nSehr geehrte Damen und Herren,\r\n\r\nmit großer Motivation bewerbe ich mich um die Position des Systemingenieurs im Bereich Hochvolt- und Bordnetz-Architektur bei der ‹firma› Landsysteme GmbH. Als Dipl.-Ing. der Mess- und Regelungstechnik mit nachgewiesener Erfahrung in der Wehrtechnik, der Leistungselektronik sowie der systemtechnischen Entwicklu", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "betreff ist doppelt der betraf kan nrausd : Bewerbung als Systemingenieur Hochvolt und Bordnetz Architektur (m/w/d)\r\nBetreff: Bewerbung als Systemingenieur Hochvolt- und Bordnetzarchitektur (m/w/d) – Referenz 0045\r\n\r\n07.05.2026", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ja", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "nach der übershcirft da B klein nach dem komma.. nach der anrewde", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "‹anschrift›\r\n‹ort›\r\nBewerbung als Systemingenieur Hochvolt und Bordnetz Architektur (m/w/d)\r\nBewerbung als Systemingenieur Hochvolt- und Bordnetzarchitektur (m/w/d)\r\n\r\n07.05.2026\r\n\r\nSehr geehrte Damen und Herren,\r\n\r\nmit großer Motivation bewerbe ich mich um die Posit\r\n\r\n\r\nbewwerbung ist doppelt", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0067 — was fehlt da?\n· Die Firma nimmt nur über ihr eigenes Portal an, und der richtige Link fehlt uns noch.\n· Die vollständigen Unterlagen sind noch nicht zusammengestellt.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0125 — was fehlt da?\n· Die vollständigen Unterlagen sind noch nicht zusammengestellt.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0001 — was fehlt da?\n· Uns fehlt die Stellenbezeichnung oder die Firma — du ‹firma› das vermutlich besser als wir.\n· Die vollständigen Unterlagen sind noch nicht zusammengestellt.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bei der adress müssen hinten die zahl hinter kassel weg: ‹firma› Landsysteme GmbH\r\n‹ort› [1][2][4]\r\n   die sind zu viel", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "‹firma›\r\n‹ort› [3]\r\nBewerbung als HF-Entwicklungsingenieur für AESA-Systeme\r\n  in der   da sit nohc ne qwellen numemr in der adresse hinter ulm", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bei der adresse die [3} hinter ulkm wegmacxhen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "nein\r\n\r\nFragebogen\r\n\r\nWir möchten gerne mehr über Sie erfahren:\r\n\r\nWelche Fähigkeiten, Kenntnisse oder Erfahrungen bringen Sie mit, die aus Ihrem Lebenslauf nicht oder nur teilweise hervorgehen?\r\nMaximale Anzahl zugelassener Zeichen: 150\r\nZeichenanzahl: 0/150\r\nWie flexibel sind Sie hinsichtlich Ihres Arbeitsortes (z.B. Pendelbereitschaft, Umzugsbereitschaft oder hybride Arbeitsmodelle)?\r\nMaximale Anzahl zugelassener Zeichen: 150\r\nZeichenanzahl: 0/150", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0063 — was fehlt da?\n· Die Firma nimmt nur über ihr eigenes Portal an, und der richtige Link fehlt uns noch.\n· Die vollständigen Unterlagen sind noch nicht zusammengestellt.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "was?   ..aber was fehlt noch bei der bewwerbung?", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "geht das autopmatisch ?", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "was fhelt denn hier ?", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0022 — was fehlt da?\n· Die Firma nimmt nur über ihr eigenes Portal an, und der richtige Link fehlt uns noch.\n· Die vollständigen Unterlagen sind noch nicht zusammengestellt.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Im Anschreiben zu Bewerbung 0079 (‹firma›) steht ein kaputtes Wort: Bei der Kooperation mit der Fahrzeugheratahi. Dieses Wort gibt es nicht - bitte den Satz reparieren. Ausserdem behauptet der Text, ich haette bei ‹firma› bereits gearbeitet - das stimmt nicht, bitte rausnehmen.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ja, der Entwurf ist gut - bitte genau so uebernehmen und die Seite neu bauen.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Zu Bewerbung 0128 (‹firma›): Als Stelle steht ueberall nur Nicht gefunden - ich ‹firma› gar nicht, worauf ich mich da bewerbe. Koennt ihr rausfinden, wie die Stelle wirklich heisst? Wenn das nicht geht, loescht die Bewerbung bitte.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nein, stopp: Woher hast du den Titel Hilfstestingenieur? In der Ausschreibung 0128 steht er nirgends, da steht nur Nicht gefunden. Bitte nichts erfinden. Wenn ihr die echte Stelle nicht mehr rausfinden koennt, loescht die Bewerbung 0128 bitte ersatzlos.", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nochmal 0079: Der Satz Bei der Kooperation mit der Fahrzeughersteller wurde ... ist schief. Bitte daraus machen: Bei der Kooperation mit einem Fahrzeughersteller wurde ... Sonst ist der Text jetzt gut. Bitte direkt uebernehmen und neu bauen, du brauchst mir keinen Entwurf mehr zu zeigen.", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nein, es steht noch drin. Woertlich steht im Anschreiben 0079 jetzt: Bei der Kooperation mit der Fahrzeughersteller wurde ... Es soll heissen: Bei der Kooperation mit einem Fahrzeughersteller wurde ... Nur das Wort der gegen einem tauschen, ein Buchstabe Unterschied im Sinn. Bitte wirklich in die Datei schreiben.", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "In deiner letzten Nachricht ist gar kein Text zu sehen - da kam nur: Hier ist der angepasste Text: und dann nichts. Lass es gut sein, ich kuemmere mich anders darum. 0079 bitte nicht weiter anfassen.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0096 — was fehlt da?\n· Uns fehlt die Stellenbezeichnung oder die Firma — du ‹firma› das vermutlich besser als wir.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0123 — was fehlt da?\n· Uns fehlt die Stellenbezeichnung oder die Firma — du ‹firma› das vermutlich besser als wir.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Da steht: Bewerbung als nicht Gefunden", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hier steht das: Also Echtzeit video Analyse ist sicher zu teuer.... Das bekommst du nicht.  Du bist Multimodel. Du kannst eigendlich Bilder sehen\r\n Das hat du schon bewiesen.\r\n\r\nAlso ton transkribieren. Dann bekommst du das Skript und Lieferzeit Zeitmarken an denen du frams von Video mit deinen Visuellen Kortex \"anschen\" möchtest... So bekommst du zumindest eine ideeeee von dem Video. Reichen die information ncuthc kannst du den Prozess jederzeit Wiederhohlen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bei ich meine die Adresse ist falsch und oben steht der Link von der stellamdreswe im anachrieben", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Da steht:icromova. Bewertung als nicht erkennbar...", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0047 — was fehlt da?\n· Uns fehlt die Stellenbezeichnung oder die Firma — du ‹firma› das vermutlich besser als wir.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich brauche Hilfe bei der Bewerbung 0091 — was fehlt da?\n· Die Firma nimmt nur über ihr eigenes Portal an, und der richtige Link fehlt uns noch.", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "was fehtl hier ?", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ich bin in stgelle 196", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "was sit da los?", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "woher bekomme ich die ausschreibung?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ja versuch mal die ausschrebung rauszufinden!", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich bin Berufspädagoge und suche eine Stelle im Angestelltenverhältnis als Lehrer bis 30 Stunden pro Woche. Ich besitze Unterrichterfahrungen in Mathematik, Deutsch, Biologie, Wirtschaftskunde, Religionsersatz, Gemeinschaftskunde, Arbeitslehre, Polytechnik, Kraftfahrzeug- und Metalltechnik.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich habe Zeugnisse geschickt", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Unterricht im Fach\r\nMathematik\r\nDeutsch als Fremdsprache, Zweitsprache, Arbeitslehre, Polytechnik, Gemeinschaftskunde, Biologie, Religionsersatz, Technisches Englisch,\r\nMetalltechnik, Kfz-Technik", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kann keine ‹firma› und Prozessanalyse", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Keine Budgetverantwortung", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Lebenslauf und Zeugnisse sind hochgeladen. Profilbild ist rechts oben im Lebenslauf", "absicht": "unterlagen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Erfahrung in Fahrradwerkstatt und Yachtschein mit Motor Binnen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kein Processmanagement", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Passt", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Dozent, Lehrer, Pädagoge, Techn. Einkäufer, Werklehrer", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kassel, Melsungen, Felsberg, Gehalt 5000 €/Monat", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nordhessen, Südniedersachsen, Ostwestfalen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Gehalt 4200-5700 €/Monat", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hanover raus\r\nTestingenieur nein", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Pädagoge, Berufsschullehrer", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Werklehrer", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kassel, Melsungen, Warburg, Hofgeismar", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hann. Münden", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "10", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nur einen Platz", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kann ich diese 9 Plätze anders wählen?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich will mich in Kassel auf eine Lehrerstelle Fach Arbeitslehre bewerben", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Oder Fach Polytechnik", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Oder Mathematik", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nicht AKGG oder ‹firma› Büchner Schule", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Um 13.3o ist Annahmeschluss", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Fast Schwedische Verhältnisse, nur da zeigen die Jugendichen scharfe Schusswaffen statt Messer. Die Unterbringung hinter \"Schwedische Gardinen\" verschlimmert die Sache nur. Besser 12 Monate Grund- oder Freiwilligendienst für alle Jugendlichen ab 18.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "‹link›", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Thomas Wacker aus Espenau sucht seit über einem Jahr einen Job. Eine Firma wollte ihn einstellen, doch das Arbeitsamt lehnte die nötige Weiterbildung ab. ‹link›", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "05.09.2026\n\n\n\n\n\nFuldagarten \n\n‹anschrift›\n\n‹ort›\n\n\n\n\n\nEinlass: 17 Uhr \n\nStart    : 19 Uhr \n\n\n\n„Fünf Jahre danach\"\n\n\n\nDer Datenanalyst:\n\n\n\nTOM LAUSEN live\n\n\n\nWie geht es Deutschland, seinen Erwachsenen, den Kindern und Neugeborenen?\n\nEine Analyse gesundheitlicher Folgen der Corona-Zeit, der Maßnahmen und der Impfkampagne anhand aktueller Daten und was die Enquete Kommission davon hält.\"\n\nDeutschland Tour:\n\n\n\nvom 05.09.2026 bis 17.09.2026\n\nund\n\nvom 13.10.2026 bis 27.10.2026\n\n\n\nKarten gibt es bald unter : \n\n\n\n‹link›\n\n\n\n\n\nUnser Verein für politische Bildung, Frieden, Freiheit und Demokratie e.V versteht sich bewusst nicht als klassische NGO!\n\n\n\nUnterstützung:\n\n‹link›\n\n\n\n‹link›", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Oder bei der FidezPartei in Budapest", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Oder bei der  Vatikanbank. Dann gilt katholisches Recht....", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bewerb dich als Informatiker in Wiesbaden oder Berlin ( LKA, BSI, MAD, BW, BP, BKA, ...)", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich esse zu Hause. Bewerbung muss nicht unbedingt sein. Hab zu nix Lust mehr.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Herr Ribbeck 2.0 aus dem Havelland", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Organspender und Nicht-Organspender aufgepasst: Der Staat will uns alle über Nacht zu Spendern machen. Karl Lauterbach möchte eine Widerspruchslösung einführen: Jeder, der nicht ausdrücklich widerspricht, wäre dann Organspender. Und als nächsten Schritt will er die Regeln lockern, damit Ärzte nicht mehr auf den Hirntod warten müssen, sondern uns schon vorher für \"tot genug\" erklären können.\r\n\nBitte alle hier gegen diesen Gesetzentwurf unterzeichnen: klicken Sie hier: ‹link› Danke", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Da war ich gestern Abend beim Grillabbau", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ab 15 Uhr gibt's Kaffee und Kuchen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "bin in Angaben zu dieser Bewerbung 0009   was gffehlken das für unterlagen?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "wqartum gibt es kei nanschreiben?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ingenieur Jobs | Stellenangebote für Ingenieure | ingenieur.de ‹link›", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Mehr darf ich nicht wegen Pflege", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Oder Teilzeit 30 Stunden", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kassel Melsungen, Ingenieur oder Dozent für Berufliche Bildung, 60000 € VZ", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "„Für Tetanus braucht man verdorbenes Fleisch. So wird der Tetanus-Impfstoff hergestellt, aus verdorbenem Fleisch.“ Dr. Suzanne Humphries: Aus diesem Grund besteht bei Ihnen durch die Impfung das Risiko einer Prionenerkrankung, auch bekannt als Rinderwahnsinn. Hier sind 4 Wahrheiten, die jeder über Tetanus und den „Impfstoff“ wissen sollte. Herstellung des Tetanustoxoid-Impfstoffs: Rinderherzinfusion (BHI) wird als Kulturmedium für C. Tetani verwendet, das Bakterium, das Tetanustoxin produziert. Der Aufguss wird zubereitet, indem Rinderherz in Wasser geköchelt und dann bis zum Siedepunkt erhitzt wird. Die erhitzte, verrottende Umgebung ermöglicht das Wachstum des Tetanustoxins. Das Tetanustoxin wird dann mit Formaldehyd behandelt, um seine pathogenen Eigensch…", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Minute 15: Das ‹firma› Kabinett hat im Haushaltsentwurf  555,4 Milliarden Euro Ausgaben beschlossen, davon muss es  203,6 Mrd. Eur Kredit aufnehmen. Bis 2028 klaffen trotzdem 109 Mrd. Eur ‹firma›. \n\nAuch die.Ausgaben für Verteidiung sollen massiv steigen: 783.8 Mrd. für sollen für verteidigungsbezogene Aktivitäten einbezogen werden. Dafür kann man doch die Renten kürzen und die Krankenkassenversicherungsbeiträge steigen lassen. Deutschland redet über Wachstum, dabei wird das BSP hauptsächlich über Rüstung und Energie mit grünem Anstrich generiert. Aufgrund der strukturellen Lücken geschieht gerade eine Neuordnung unsere Staates unter Krisenbedingungen mit Verteilung des Wohlstandes von unten nach oben.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Netto verkauft Balkonkraftwerk für unter 200 Euro ‹link›", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Wenn die die 5 G Funkmasten energetisch  hochfahren, fliegen die Bienen und Geimpften Satanisten im Kreis.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Dieser Arzt macht bei einer Woche Stromausfall dichtm", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bundesregierung legt Kettensäge an Gesundheitssystem - Fraktion Die Linke im Bundestag ‹link›", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Wenn die Witwenrente kippt, dann gibts bald auch kein Rentensplitting mehr bei Scheidungen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Da steht der Name Elle ?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Dankeschön und schön Abend mfg!", "absicht": "dank", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "??", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hi David , wie geht’s ? Hast du eine andere Telefonnummer?\n\nmfg Tony", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hast du eine andere Nummer?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Okay danke", "absicht": "dank", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hast du das alles geschrieben ?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ja ; es ist viel ; hast du eine neue Telefonnummer ?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Von der Post habe ich eine absage bekommen ; bitte bei ‹firma› und ‹firma› ein schicken ! Danke und schön Tag mfg Tony", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hast du eine neue Handynummer?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ja  okay", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hi David , ist alles weggeschickt ? \n\nSchön Abend mfg Tony", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hi David , wie geht’s ? Bitte ‹firma› und ‹firma› zuerst und bei der ‹firma› in vellmar ; Dankeschön", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bitte die anderen zuerst, danke", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nein", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hey David zuerst die anderen Sachen okay", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hat das mit der Uhr geklappt?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "No", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Vergiss das", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nicht passend", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bitte die andere Sachen zuerst", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ist wichtiger", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Zuerst die anderen  okay", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nein bitte die andere zuerst , ‹firma› vellmar ; ‹firma› ; ‹firma› Kassel ; Hubner ; k v g \n\nDankeschön", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Was ich gerade getextet habe", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Keine von den", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Die anderen Sachen zuerst", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Keine gmbh momentan okay", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Wir sind abgeschinnten worden \n\nNein", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Shit", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hi David , eie geht’s klappt alles ?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Klappt das mit der Uhr?", "absicht": "statusfrage", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Zuerst die anderen", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ja\n\nDankeschön und schön Tag mfg Tony", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Die anderen zuerst \n\nLäuft das mit der Uhr ?", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hallo David , ja bitte die anderen Sachen zuerst; wünsche dir einen schönen Tag mfg!", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Okay und denk bitte an der Uhr , Dankeschön!", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Es ist dringend", "absicht": "reihenfolge", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Das die Uhr reingestellt wird", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Zum Verkauf", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hatte dir schon mal alles geschickt, hast du die Info noch ?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Nein die Uhr soll verkauft werden", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Dachte ich rede mit David ?!", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Mit wem rede ich?", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Schön hat der so nicht gesagt", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Ich wusste nicht dass ich mit jemand anderen rede , möchte mit David sprechen", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bitte sieh dir die aktuellen Bewerbungen an", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Kein Problem", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bewerbungsagent Inaktiv", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "hallo!?", "absicht": "lebenszeichen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "kein Problem!", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Bewerbungsagent ist aktiv", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Agetensystem aktiv", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Agentensystem aktiv", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hallo, bekomme ich eine Antwort im Portal?", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Hi ; ‹firma›; ‹firma› vellmar. Hubner ; ‹firma› Kassel ;", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "nein Ich heiße Wilfrid", "absicht": "ablehnung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Sie", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "nicht \"Du\" bitteschön, sondern \"Sie\"", "absicht": "anschreiben_aendern", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "fertig", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ich muß ein Zeugnis löschen", "absicht": "unterlagen", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "ok", "absicht": "zustimmung", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Berufsbezeichnung ist mir egal. In irgendeiner Kleinstadt in Deutschland.", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}
+{"text": "Berufe: Systemingenieur, Technischer Projektmanager, Exportmanager, Business Development Manager, Facility Manager, Managementberater (Technik & International) und 4 weitere\r\nWo: Kassel (50 km)", "absicht": "", "kontext": {"ref": "0096", "letzte_frage": "freigabe"}}

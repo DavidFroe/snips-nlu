@@ -12,9 +12,10 @@ Drei Wege, mehr nicht:
 ``durchreichen``
     Keine Ahnung. Voller Kontext ans Modell, wie bisher.
 
-Die Schwellen stehen in :mod:`absicht.konfiguration`. Zwei Regeln stehen
+Die Schwellen stehen in :mod:`absicht.konfiguration`. Einige Regeln stehen
 darueber und lassen sich nicht wegkonfigurieren, weil an ihnen der teuerste
-Fehler dieses Systems haengt — siehe :func:`entscheiden`.
+Fehler dieses Systems haengt — siehe :func:`entscheiden`,
+:func:`verneinung_sperrt` und :func:`zu_lang`.
 """
 
 from absicht.normalisierung import normalisieren, zerlegen
@@ -58,6 +59,43 @@ def verneinung_sperrt(treffer, text, absichten, verneinung):
             gestrichen.append(
                 "'%s' gestrichen: die Nachricht enthaelt eine Verneinung"
                 % einzelner.absicht)
+            continue
+        verblieben.append(einzelner)
+    return verblieben, gestrichen
+
+
+def zu_lang(treffer, text, absichten):
+    """Streicht Absichten, deren Kennwoerter in einem langen Satz stehen
+
+    **Auch diese Pruefung gehoert ueber die Naht**, aus demselben Grund wie
+    :func:`verneinung_sperrt`: Sie ist eine Regel ueber Absichten, keine
+    Eigenheit eines Erkenners.
+
+    Der Anlass steht in den Verlaeufen. "Hallo" allein ist ein Lebenszeichen
+    — jemand wartet auf eine Antwort, die nicht kam. "Hallo, bekomme ich
+    eine Antwort im Portal?" faengt genauso an und ist trotzdem eine echte
+    Frage, die ans Modell gehoert. Ohne diese Grenze bekam der Bewerber auf
+    seine Frage ein "Ja, ich bin da. Was brauchst du?" — also genau das
+    Ausweichen, gegen das die ganze Schicht gebaut ist.
+
+    Args:
+        treffer (list[Treffer]): was der Erkenner geliefert hat
+        text (str): der Rohtext der Nachricht
+        absichten (dict[str, Absicht]): die Absichtsdefinitionen
+
+    Returns:
+        tuple[list[Treffer], list[str]]: verbliebene Treffer und Protokoll
+    """
+    laenge = len(normalisieren(text or ""))
+    verblieben = []
+    gestrichen = []
+    for einzelner in treffer:
+        definition = absichten.get(einzelner.absicht)
+        grenze = getattr(definition, "hoechstlaenge", 0) if definition else 0
+        if grenze and laenge > grenze:
+            gestrichen.append(
+                "'%s' gestrichen: %d Zeichen ueberschreiten die Grenze von %d"
+                % (einzelner.absicht, laenge, grenze))
             continue
         verblieben.append(einzelner)
     return verblieben, gestrichen

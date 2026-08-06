@@ -37,6 +37,11 @@ class Absicht:
             kann.
         kurzbefehle: normalisierte Nachrichten, die genau so lauten
         wendungen: Wortgruppen fuer den laengeren Text
+        hoechstlaenge: greift nur bei Nachrichten bis zu dieser Laenge.
+            0 heisst: keine Grenze. Gebraucht fuer Absichten, deren
+            Kennwoerter auch in echten Fragen vorkommen — "Hallo" allein
+            ist ein Lebenszeichen, "Hallo, bekomme ich eine Antwort im
+            Portal?" ist eine Frage und gehoert ans Modell.
         llm_auftrag: Bauplan fuer den Weg "aufbereitet"
     """
 
@@ -46,6 +51,7 @@ class Absicht:
     braucht_bezug: bool = False
     braucht_letzte_frage: bool = False
     verneinung_schliesst_aus: bool = False
+    hoechstlaenge: int = 0
     kurzbefehle: tuple = ()
     wendungen: tuple = ()
     llm_auftrag: dict = field(default_factory=dict)
@@ -79,6 +85,7 @@ def laden(pfad):
                 eintrag.get("braucht_letzte_frage", False)),
             verneinung_schliesst_aus=bool(
                 eintrag.get("verneinung_schliesst_aus", False)),
+            hoechstlaenge=int(eintrag.get("hoechstlaenge", 0) or 0),
             kurzbefehle=tuple(
                 normalisieren(k) for k in eintrag.get("kurzbefehle") or []),
             wendungen=tuple(

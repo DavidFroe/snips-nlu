@@ -60,10 +60,13 @@ absichten:
       - [nicht, nehmen]
       - [nicht, schicken]
       - [nicht, abschicken]
-      - [andere, zuerst]
-      - [die, andere, zuerst]
       - [raus, nehmen]
       - [weg, damit]
+      # [andere, zuerst] stand hier bis zum 06.08. — falsch. In den echten
+      # Verlaeufen heisst "Bitte die anderen zuerst" nicht "wirf sie weg",
+      # sondern "stell sie zurueck". Der Unterschied ist teuer: Ablehnung
+      # verwirft die Bewerbung, Reihenfolge sortiert sie nur um. Siehe
+      # Absicht `reihenfolge` weiter unten.
 
   zustimmung:
     aktion: freigeben
@@ -80,6 +83,11 @@ absichten:
       - jawohl
       - klar
       - alles klar
+      - ok
+      - oke
+      - okey
+      - fertig
+      - erledigt
       - passt
       - passt so
       - so passt das
@@ -128,6 +136,10 @@ absichten:
       - [schluss, aendern]
 
   lebenszeichen:
+    # Nur bei kurzen Nachrichten. "Hallo" allein ist ein Lebenszeichen,
+    # "Hallo, bekomme ich eine Antwort im Portal?" ist eine Frage — die
+    # gehoert ans Modell. Bis zum 06.08. fing die Regel beides.
+    hoechstlaenge: 26
     aktion: null
     folgenreich: false
     kurzbefehle:
@@ -140,6 +152,9 @@ absichten:
       - bist du noch da
       - bist du da?
       - jemand da
+      - mit wem rede ich
+      - mit wem schreibe ich
+      - wer bist du
       - lebst du noch
       - geht es weiter
       - was ist los
@@ -242,3 +257,64 @@ absichten:
       - [wie, laeuft]
       - woerter: [stand]
         sicherheit: 0.62
+      # Aus dem Betrieb nachgetragen (06.08.). Zwei Gruppen:
+      #
+      # Erstens der Portal-Knopf: "Ich brauche Hilfe bei der Bewerbung
+      # 0067 - was fehlt da?" ist keine getippte Frage, sondern eine
+      # erzeugte Nachricht. Sie kommt woertlich immer gleich und ist
+      # deshalb sicher zu erkennen - 10 von 14 Statusfragen im Bestand
+      # sind genau diese.
+      - woerter: [brauche, hilfe, bewerbung]
+        sicherheit: 0.95
+      - woerter: [was, fehlt]
+        sicherheit: 0.85
+      # Zweitens getippte Fragen, samt Tippfehlern. "was fehtl hier",
+      # "was fhelt denn hier" - beides steht so in den Verlaeufen. Wer
+      # nur sauberes Schriftdeutsch erkennt, faengt keine davon.
+      - woerter: [fehtl]
+        sicherheit: 0.80
+      - woerter: [fhelt]
+        sicherheit: 0.80
+      - [geht, das]
+      - [klappt, das]
+      - [laeuft, das]
+
+  reihenfolge:
+    # Neu am 06.08., aus den Verlaeufen: Der Bewerber steuert, was zuerst
+    # bearbeitet wird. "Zuerst die anderen", "Ist wichtiger", "Es ist
+    # dringend" - elf Vorkommen im Bestand.
+    #
+    # Ausdruecklich NICHT `ablehnung`: Wer "die anderen zuerst" sagt, will
+    # nichts wegwerfen, sondern umsortieren. Das ist keine Wortklauberei -
+    # eine falsch als Ablehnung gelesene Umsortierung verwirft eine
+    # Bewerbung, an der schon gearbeitet wurde.
+    #
+    # `folgenreich`, weil sie die Arbeitsreihenfolge aendert. Aber ohne
+    # Bezug ist sie bedeutungslos: "zuerst die anderen" - welche?
+    aktion: umsortieren
+    folgenreich: true
+    braucht_bezug: true
+    llm_auftrag:
+      zweck: priorisierung
+      prompt_bausteine: [bewerbungsliste]
+      weglassen: [werkzeuge, anschreiben_aktuell, verhaltensregeln]
+    kurzbefehle:
+      - zuerst die anderen
+      - die anderen zuerst
+      - die andere zuerst
+      - erst die anderen
+      - ist wichtiger
+      - es ist dringend
+      - das ist dringend
+      - eilt
+    wendungen:
+      - [anderen, zuerst]
+      - [andere, zuerst]
+      - [anderen, sachen, zuerst]
+      - [erst, die]
+      - woerter: [dringend]
+        sicherheit: 0.85
+      - woerter: [wichtiger]
+        sicherheit: 0.85
+      - woerter: [vorziehen]
+        sicherheit: 0.85
