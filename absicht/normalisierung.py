@@ -39,7 +39,10 @@ def normalisieren(text):
         str: klein geschrieben, ohne Satzzeichen und Emojis, ohne Umlaute,
             ohne gedehnte Buchstaben, mit einfachen Leerzeichen
     """
-    if not text:
+    # Was kein Text ist, kann die Schicht nicht beurteilen — dann gilt, was
+    # immer im Zweifel gilt: durchreichen. Ein Aufrufer, der versehentlich
+    # ein dict schickt, soll keinen Bot zum Absturz bringen.
+    if not text or not isinstance(text, str):
         return ""
 
     text = unicodedata.normalize("NFC", text)

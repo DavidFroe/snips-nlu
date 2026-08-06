@@ -49,6 +49,22 @@ class TestDreiWege(unittest.TestCase):
             ergebnis = self.schicht.pruefen(text)
             self.assertEqual(absicht.WEG_DURCHREICHEN, ergebnis["weg"])
 
+    def test_unsinnige_eingaben_stuerzen_nicht_ab(self):
+        """Ein Tuersteher, der den Bot mitreisst, ist keiner
+
+        Was kein Text ist, kann die Schicht nicht beurteilen — dann gilt,
+        was im Zweifel immer gilt: durchreichen.
+        """
+        for text in (12345, {"a": 1}, ["nein"], object(), b"nein"):
+            ergebnis = self.schicht.pruefen(text, kontext={"ref": "0096"})
+            self.assertEqual(absicht.WEG_DURCHREICHEN, ergebnis["weg"], text)
+
+    def test_unbekannte_kontextschluessel_stoeren_nicht(self):
+        ergebnis = self.schicht.pruefen(
+            "nein", kontext={"ref": "0096", "voellig_unbekannt": 42,
+                             "kanal": "whatsapp", "zustand": "PUBLIZIERT"})
+        self.assertEqual(absicht.WEG_DIREKT, ergebnis["weg"])
+
 
 class TestBeispieleAusDemAnforderungsdokument(unittest.TestCase):
     """Die Beispiele, die im Anforderungsdokument woertlich stehen"""
