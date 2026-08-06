@@ -24,7 +24,7 @@ zustimmung:
 
 lebenszeichen:
   - "Ja, ich bin da. Was brauchst du?"
-  - "Bin da. Woran haengt es?"
+  - "Bin da. Woran hängt es?"
   - "Hier bin ich — sag, was du brauchst."
   - "Ja, ich lese mit. Was kann ich tun?"
 
@@ -35,5 +35,5 @@ dank:
   - "Passt, meld dich einfach."
 
 unterlagen:
-  - "Deine Unterlagen kannst du hier selbst aendern: {portal}/bewerbung/{ref}/unterlagen"
+  - "Deine Unterlagen kannst du hier selbst ändern: {portal}/bewerbung/{ref}/unterlagen"
   - "Das geht direkt im Portal: {portal}/bewerbung/{ref}/unterlagen"
