@@ -1,5 +1,3 @@
-from __future__ import print_function, unicode_literals
-
 
 def add_download_entity_parser(subparsers, formatter_class):
     subparser = subparsers.add_parser(
@@ -72,7 +70,6 @@ def _download_language_builtin_entities(args_namespace):
 def download_language_builtin_entities(language, *pip_args):
     """Download all gazetteer entity resources for a given language as well as
     basic language resources for this language"""
-    from builtins import str
     from snips_nlu_parsers import get_supported_gazetteer_entities
     from snips_nlu import __about__
     from snips_nlu.cli.download import download_from_resource_name
@@ -98,7 +95,6 @@ def download_language_builtin_entities(language, *pip_args):
 def _download_and_link_entity(long_resource_name, entity_name, language,
                               compatibility, pip_args):
     import sys
-    from builtins import str
     from snips_nlu_parsers import get_builtin_entity_shortname
     from snips_nlu.cli.link import link_resources
     from snips_nlu.cli.utils import (
@@ -113,9 +109,7 @@ def _download_and_link_entity(long_resource_name, entity_name, language,
     entity_base_url = _get_entity_base_url(language, entity_alias, version)
     latest = get_json(entity_base_url + "/latest",
                       "Latest entity resources version")
-    latest_url = "{b}/{n}#egg={r}=={v}".format(
-        b=entity_base_url, n=latest["filename"], r=full_resource_name,
-        v=latest["version"])
+    latest_url = "{b}/{n}".format(b=entity_base_url, n=latest["filename"])
     exit_code = install_remote_package(latest_url, pip_args)
     if exit_code != 0:
         sys.exit(exit_code)

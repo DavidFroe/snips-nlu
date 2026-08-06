@@ -1,11 +1,7 @@
-from __future__ import division, unicode_literals
-
 import json
-from builtins import str, zip
 from copy import deepcopy
 from pathlib import Path
 
-from future.utils import iteritems
 
 from snips_nlu.common.utils import (
     json_string, fitted_required, replace_entities_with_placeholders,
@@ -24,6 +20,26 @@ from snips_nlu.pipeline.processing_unit import ProcessingUnit
 from snips_nlu.preprocessing import stem, tokenize_light
 from snips_nlu.resources import get_stop_words, get_word_cluster
 from snips_nlu.slot_filler.features_utils import get_all_ngrams
+
+
+def _set_sklearn_idf(sklearn_vectorizer, vocabulary, idf):
+    """Attach a vocabulary and its idf weights to a sklearn TfidfVectorizer
+
+    This goes through the public ``idf_`` setter, which is the only stable
+    entry point across sklearn versions: up to 1.5 the weights were stored in
+    a sparse ``_tfidf._idf_diag`` matrix, since 1.6 they live in a plain
+    ``_tfidf.idf_`` array.
+    """
+    import numpy as np
+
+    idf = np.asarray(idf, dtype=np.float64)
+    sklearn_vectorizer.vocabulary_ = vocabulary
+    sklearn_vectorizer.idf_ = idf
+    # ``transform`` validates the number of input features against the value
+    # recorded at fit time, which is stale after a vocabulary change
+    tfidf_transformer = sklearn_vectorizer._tfidf  # pylint: disable=W0212
+    tfidf_transformer.n_features_in_ = len(idf)
+    return sklearn_vectorizer
 
 
 @ProcessingUnit.register("featurizer")
@@ -58,12 +74,11 @@ class Featurizer(ProcessingUnit):
 
         index = {
             i: "ngram:%s" % ng
-            for ng, i in iteritems(self.tfidf_vectorizer.vocabulary)
+            for ng, i in self.tfidf_vectorizer.vocabulary.items()
         }
         num_ng = len(index)
         if self.cooccurrence_vectorizer is not None:
-            for word_pair, j in iteritems(
-                    self.cooccurrence_vectorizer.word_pairs):
+            for word_pair, j in self.cooccurrence_vectorizer.word_pairs.items():
                 index[j + num_ng] = "pair:%s+%s" % (word_pair[0], word_pair[1])
         return index
 
@@ -126,7 +141,7 @@ class Featurizer(ProcessingUnit):
                 val == tfidf_pval.min())
 
         best_ngrams = [ng for ng, i in
-                       iteritems(self.tfidf_vectorizer.vocabulary)
+                       self.tfidf_vectorizer.vocabulary.items()
                        if i in best_tfidf_features]
         self.tfidf_vectorizer.limit_vocabulary(best_ngrams)
         # We can't return x_tfidf[:best_tfidf_features] because of the
@@ -164,8 +179,7 @@ class Featurizer(ProcessingUnit):
             pval, top_k - 1, axis=None)[:top_k]
         top_k_cooccurrence_ix = set(top_k_cooccurrence_ix)
         top_word_pairs = [
-            pair for pair, i in iteritems(
-                self.cooccurrence_vectorizer.word_pairs)
+            pair for pair, i in self.cooccurrence_vectorizer.word_pairs.items()
             if i in top_k_cooccurrence_ix
         ]
 
@@ -428,8 +442,6 @@ class TfidfVectorizer(ProcessingUnit):
         Returns:
             :class:`.TfidfVectorizer`: The vectorizer with limited vocabulary
         """
-        import scipy.sparse as sp
-
         ngrams = set(ngrams)
         vocab = self.vocabulary
         existing_ngrams = set(vocab)
@@ -441,18 +453,13 @@ class TfidfVectorizer(ProcessingUnit):
 
         new_ngrams, new_index = zip(*sorted((ng, vocab[ng]) for ng in ngrams))
 
-        self._tfidf_vectorizer.vocabulary_ = {
+        # The new idf weights are valid because the previous ones were indexed
+        # with sorted ngrams and new_index is also indexed with sorted ngrams
+        new_idf_data = self.idf_diag[list(new_index)]
+        new_vocabulary = {
             ng: new_i for new_i, ng in enumerate(new_ngrams)
         }
-        # pylint: disable=protected-access
-        # The new_idf_data is valid because the previous _idf_diag was indexed
-        # with sorted ngrams and new_index is also indexed with sorted ngrams
-        new_idf_data = self._tfidf_vectorizer._tfidf._idf_diag.data[
-            list(new_index)]
-        self._tfidf_vectorizer._tfidf._idf_diag = sp.spdiags(
-            new_idf_data, diags=0, m=len(new_index), n=len(new_index),
-            format="csr")
-        # pylint: enable=protected-access
+        _set_sklearn_idf(self._tfidf_vectorizer, new_vocabulary, new_idf_data)
         return self
 
     @property
@@ -467,7 +474,8 @@ class TfidfVectorizer(ProcessingUnit):
             TfidfVectorizer as SklearnTfidfVectorizer)
 
         self._tfidf_vectorizer = SklearnTfidfVectorizer(
-            tokenizer=lambda x: tokenize_light(x, language))
+            tokenizer=lambda x: tokenize_light(x, language),
+            token_pattern=None)
         return self
 
     @check_persisted_path
@@ -476,7 +484,7 @@ class TfidfVectorizer(ProcessingUnit):
 
         vectorizer_ = None
         if self._tfidf_vectorizer is not None:
-            vocab = {k: int(v) for k, v in iteritems(self.vocabulary)}
+            vocab = {k: int(v) for k, v in self.vocabulary.items()}
             idf_diag = self.idf_diag.tolist()
             vectorizer_ = {
                 "vocab": vocab,
@@ -503,9 +511,8 @@ class TfidfVectorizer(ProcessingUnit):
     # pylint: disable=W0212
     def from_path(cls, path, **shared):
         import numpy as np
-        import scipy.sparse as sp
         from sklearn.feature_extraction.text import (
-            TfidfTransformer, TfidfVectorizer as SklearnTfidfVectorizer)
+            TfidfVectorizer as SklearnTfidfVectorizer)
 
         path = Path(path)
 
@@ -527,23 +534,13 @@ class TfidfVectorizer(ProcessingUnit):
         vectorizer_ = vectorizer_dict["vectorizer"]
         if vectorizer_:
             vocab = vectorizer_["vocab"]
-            idf_diag_data = vectorizer_["idf_diag"]
-            idf_diag_data = np.array(idf_diag_data)
+            idf_diag_data = np.array(vectorizer_["idf_diag"])
 
-            idf_diag_shape = (len(idf_diag_data), len(idf_diag_data))
-            row = list(range(idf_diag_shape[0]))
-            col = list(range(idf_diag_shape[0]))
-            idf_diag = sp.csr_matrix(
-                (idf_diag_data, (row, col)), shape=idf_diag_shape)
-
-            tfidf_transformer = TfidfTransformer()
-            tfidf_transformer._idf_diag = idf_diag
-
-            vectorizer_ = SklearnTfidfVectorizer(
-                tokenizer=lambda x: tokenize_light(x, vectorizer._language))
-            vectorizer_.vocabulary_ = vocab
-
-            vectorizer_._tfidf = tfidf_transformer
+            sklearn_vectorizer = SklearnTfidfVectorizer(
+                tokenizer=lambda x: tokenize_light(x, vectorizer._language),
+                token_pattern=None)
+            vectorizer_ = _set_sklearn_idf(
+                sklearn_vectorizer, vocab, idf_diag_data)
 
         vectorizer._tfidf_vectorizer = vectorizer_
         return vectorizer
@@ -751,7 +748,7 @@ class CooccurrenceVectorizer(ProcessingUnit):
         self_as_dict = {
             "language_code": self.language,
             "word_pairs": {
-                i: list(p) for p, i in iteritems(self.word_pairs)
+                i: list(p) for p, i in self.word_pairs.items()
             },
             "builtin_entity_scope": builtin_entity_scope,
             "config": self.config.to_dict()
@@ -787,7 +784,7 @@ class CooccurrenceVectorizer(ProcessingUnit):
         if vectorizer_dict["word_pairs"]:
             self._word_pairs = {
                 tuple(p): int(i)
-                for i, p in iteritems(vectorizer_dict["word_pairs"])
+                for i, p in vectorizer_dict["word_pairs"].items()
             }
         return self
 

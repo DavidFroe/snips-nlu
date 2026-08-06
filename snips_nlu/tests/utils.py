@@ -1,11 +1,8 @@
-from __future__ import unicode_literals
-
 import json
 import shutil
 import sys
 import tempfile
 import traceback as tb
-from builtins import object
 from contextlib import contextmanager
 from pathlib import Path
 from unittest import TestCase

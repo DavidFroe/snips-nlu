@@ -1,12 +1,9 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
-from builtins import range
 from copy import deepcopy
 
 from checksumdir import dirhash
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.common.io_utils import temp_dir
 from snips_nlu.constants import (

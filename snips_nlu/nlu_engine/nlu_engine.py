@@ -1,12 +1,8 @@
-from __future__ import unicode_literals
-
 import json
 import logging
-from builtins import str
 from collections import defaultdict
 from pathlib import Path
 
-from future.utils import iteritems, itervalues
 
 from snips_nlu.__about__ import __model_version__, __version__
 from snips_nlu.common.dataset_utils import get_slot_name_mappings
@@ -224,7 +220,7 @@ class SnipsNLUEngine(ProcessingUnit):
                 proba = max(res[RES_PROBA], results[intent][RES_PROBA])
                 results[intent][RES_PROBA] = proba
 
-        return sorted(itervalues(results), key=lambda res: -res[RES_PROBA])
+        return sorted(results.values(), key=lambda res: -res[RES_PROBA])
 
     @log_elapsed_time(logger, logging.DEBUG, "Parsed slots in {elapsed_time}")
     @fitted_required
@@ -453,7 +449,7 @@ class SnipsNLUEngine(ProcessingUnit):
 def _get_dataset_metadata(dataset):
     dataset = dataset
     entities = dict()
-    for entity_name, entity in iteritems(dataset[ENTITIES]):
+    for entity_name, entity in dataset[ENTITIES].items():
         if is_builtin_entity(entity_name):
             continue
         entities[entity_name] = {

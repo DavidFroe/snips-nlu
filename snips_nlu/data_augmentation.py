@@ -1,10 +1,6 @@
-from __future__ import unicode_literals
-
-from builtins import next
 from copy import deepcopy
 from itertools import cycle
 
-from future.utils import iteritems
 
 from snips_nlu.constants import (
     CAPITALIZE, DATA, ENTITIES, ENTITY, INTENTS, TEXT, UTTERANCES)
@@ -68,7 +64,7 @@ def get_entities_iterators(intent_entities, language,
     from snips_nlu_parsers import get_builtin_entity_examples
 
     entities_its = dict()
-    for entity_name, entity in iteritems(intent_entities):
+    for entity_name, entity in intent_entities.items():
         utterance_values = random_state.permutation(sorted(entity[UTTERANCES]))
         if add_builtin_entities_examples and is_builtin_entity(entity_name):
             entity_examples = get_builtin_entity_examples(

@@ -1,13 +1,9 @@
-from __future__ import unicode_literals
-
 import json
 import logging
-from builtins import str
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 
-from future.utils import iteritems, itervalues
 
 from snips_nlu.common.log_utils import log_elapsed_time, log_result
 from snips_nlu.common.utils import (
@@ -44,7 +40,7 @@ class ProbabilisticIntentParser(IntentParser):
         return self.intent_classifier is not None \
                and self.intent_classifier.fitted \
                and all(slot_filler is not None and slot_filler.fitted
-                       for slot_filler in itervalues(self.slot_fillers))
+                       for slot_filler in self.slot_fillers.values())
 
     @log_elapsed_time(logger, logging.INFO,
                       "Fitted probabilistic intent parser in {elapsed_time}")
@@ -187,7 +183,7 @@ class ProbabilisticIntentParser(IntentParser):
     def persist(self, path):
         """Persists the object at the given path"""
         path.mkdir()
-        sorted_slot_fillers = sorted(iteritems(self.slot_fillers))
+        sorted_slot_fillers = sorted(self.slot_fillers.items())
         slot_fillers = []
         for i, (intent, slot_filler) in enumerate(sorted_slot_fillers):
             slot_filler_name = "slot_filler_%s" % i

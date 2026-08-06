@@ -1,5 +1,3 @@
-from __future__ import print_function, unicode_literals
-
 
 def add_download_parser(subparsers, formatter_class):
     subparser = subparsers.add_parser(
@@ -43,8 +41,7 @@ def download(resource_name, direct=False,
         components = resource_name.split("-")
         name = "".join(components[:-1])
         version = components[-1]
-        url_tail = '{n}-{v}/{n}-{v}.tar.gz#egg={n}=={v}'.format(
-            n=name, v=version)
+        url_tail = '{n}-{v}/{n}-{v}.tar.gz'.format(n=name, v=version)
         download_url = __about__.__download_url__ + '/' + url_tail
         dl = install_remote_package(download_url, pip_args)
         if dl != 0:
@@ -103,7 +100,7 @@ def _download_and_link(resource_alias, resource_fullname, compatibility,
 
     version = get_resources_version(resource_fullname, resource_alias,
                                     compatibility)
-    url_tail = '{r}-{v}/{r}-{v}.tar.gz#egg={r}=={v}'.format(
+    url_tail = '{r}-{v}/{r}-{v}.tar.gz'.format(
         r=resource_fullname, v=version)
     download_url = __about__.__download_url__ + '/' + url_tail
     exit_code = install_remote_package(download_url, pip_args)

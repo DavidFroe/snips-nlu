@@ -1,12 +1,8 @@
-from __future__ import division, unicode_literals
-
 import itertools
 import re
-from builtins import next, range, str
 from copy import deepcopy
 from uuid import uuid4
 
-from future.utils import iteritems, itervalues
 
 from snips_nlu.constants import (DATA, ENTITY, INTENTS, TEXT,
                                  UNKNOWNWORD, UTTERANCES)
@@ -23,7 +19,7 @@ UNKNOWNWORD_REGEX = re.compile(r"%s(\s+%s)*" % (UNKNOWNWORD, UNKNOWNWORD))
 
 def remove_builtin_slots(dataset):
     filtered_dataset = deepcopy(dataset)
-    for intent_data in itervalues(filtered_dataset[INTENTS]):
+    for intent_data in filtered_dataset[INTENTS].values():
         for utterance in intent_data[UTTERANCES]:
             utterance[DATA] = [
                 chunk for chunk in utterance[DATA]
@@ -35,7 +31,7 @@ def get_regularization_factor(dataset):
     import numpy as np
 
     intents = dataset[INTENTS]
-    nb_utterances = [len(intent[UTTERANCES]) for intent in itervalues(intents)]
+    nb_utterances = [len(intent[UTTERANCES]) for intent in intents.values()]
     avg_utterances = np.mean(nb_utterances)
     total_utterances = sum(nb_utterances)
     alpha = 1.0 / (4 * (total_utterances + 5 * avg_utterances))
@@ -127,7 +123,7 @@ def build_training_data(dataset, language, data_augmentation_config, resources,
 
     augmented_utterances = []
     utterance_classes = []
-    for intent_name, intent_data in sorted(iteritems(intents)):
+    for intent_name, intent_data in sorted(intents.items()):
         nb_utterances = len(intent_data[UTTERANCES])
         min_utterances_to_generate = max(
             data_augmentation_config.min_utterances, nb_utterances)
@@ -161,9 +157,9 @@ def build_training_data(dataset, language, data_augmentation_config, resources,
     if noisy_utterances:
         classes_mapping[NOISE_NAME] = noise_class
 
-    nb_classes = len(set(itervalues(classes_mapping)))
+    nb_classes = len(set(classes_mapping.values()))
     intent_mapping = [None for _ in range(nb_classes)]
-    for intent, intent_class in iteritems(classes_mapping):
+    for intent, intent_class in classes_mapping.items():
         if intent == NOISE_NAME:
             intent_mapping[intent_class] = None
         else:

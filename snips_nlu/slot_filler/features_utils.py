@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from copy import deepcopy
 
 from snips_nlu.common.dict_utils import LimitedSizeDict

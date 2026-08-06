@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from snips_nlu.common.from_dict import FromDict
 from snips_nlu.constants import STOP_WORDS
 from snips_nlu.pipeline.configs import (

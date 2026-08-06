@@ -1,13 +1,10 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
 import os
-from builtins import range
 from pathlib import Path
 from unittest import skipIf
 
-from mock import MagicMock, PropertyMock
+from unittest.mock import MagicMock, PropertyMock
 from sklearn_crfsuite import CRF
 
 from snips_nlu.constants import (

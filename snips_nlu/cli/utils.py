@@ -1,5 +1,3 @@
-from __future__ import print_function, unicode_literals
-
 import logging
 import os
 import subprocess
@@ -12,12 +10,23 @@ import snips_nlu
 from snips_nlu import __about__
 from snips_nlu.common.utils import parse_version
 
-try:
-    from importlib import invalidate_caches
-except ImportError:
-    def invalidate_caches():
-        from time import sleep
-        sleep(1)
+from importlib import invalidate_caches
+
+INSECURE_DOWNLOAD_ENV_VAR = "SNIPS_NLU_INSECURE_DOWNLOAD"
+
+
+def insecure_download_enabled():
+    """Whether TLS verification is disabled when downloading resources
+
+    The gazetteer entity resources are still served by the unmaintained Snips
+    CloudFront distribution, which answers on ``resources.snips.ai`` with a
+    certificate valid only for ``*.cloudfront.net``. Verification therefore
+    fails even though the data is still there. Setting
+    ``SNIPS_NLU_INSECURE_DOWNLOAD=1`` fetches it over an unverified
+    connection; check what you downloaded before you use it.
+    """
+    return os.environ.get(INSECURE_DOWNLOAD_ENV_VAR, "").lower() in (
+        "1", "true", "yes")
 
 
 @unique
@@ -69,7 +78,12 @@ def _color_from_level(level):
 
 
 def get_json(url, desc):
-    r = requests.get(url)
+    verify = not insecure_download_enabled()
+    if not verify:
+        import urllib3
+        urllib3.disable_warnings(
+            urllib3.exceptions.InsecureRequestWarning)
+    r = requests.get(url, verify=verify)
     if r.status_code != 200:
         raise OSError("%s: Received status code %s when fetching the resource"
                       % (desc, r.status_code))
@@ -101,6 +115,9 @@ def get_resources_version(resource_fullname, resource_alias, compatibility):
 
 def install_remote_package(download_url, user_pip_args=None):
     pip_args = ['--no-cache-dir', '--no-deps']
+    if insecure_download_enabled():
+        from urllib.parse import urlparse
+        pip_args.extend(['--trusted-host', urlparse(download_url).hostname])
     if user_pip_args:
         pip_args.extend(user_pip_args)
     cmd = [sys.executable, '-m', 'pip', 'install'] + pip_args + [download_url]

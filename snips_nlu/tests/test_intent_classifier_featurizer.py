@@ -1,12 +1,9 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
-from builtins import str, zip, range
 
 import numpy as np
 from checksumdir import dirhash
-from mock import patch, MagicMock
+from unittest.mock import patch, MagicMock
 
 from snips_nlu.common.io_utils import temp_dir
 from snips_nlu.common.utils import json_string

@@ -1,12 +1,8 @@
-from __future__ import unicode_literals
-
 from abc import ABCMeta, abstractmethod, abstractproperty
-from builtins import object
-
-from future.utils import with_metaclass
 
 
-class Config(with_metaclass(ABCMeta, object)):
+
+class Config(object, metaclass=ABCMeta):
     @abstractmethod
     def to_dict(self):
         pass
@@ -16,7 +12,7 @@ class Config(with_metaclass(ABCMeta, object)):
         raise NotImplementedError
 
 
-class ProcessingUnitConfig(with_metaclass(ABCMeta, Config)):
+class ProcessingUnitConfig(Config, metaclass=ABCMeta):
     """Represents the configuration object needed to initialize a
         :class:`.ProcessingUnit`"""
 

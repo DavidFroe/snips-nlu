@@ -1,11 +1,7 @@
-from __future__ import division, unicode_literals
-
 import json
-from builtins import str
 from collections import Counter
 from copy import deepcopy
 
-from future.utils import iteritems, itervalues
 
 from snips_nlu.common.dataset_utils import (validate_key, validate_keys,
                                             validate_type)
@@ -53,8 +49,8 @@ def validate_and_format_dataset(dataset):
 
     dataset[INTENTS] = {
         intent_name: intent_data
-        for intent_name, intent_data in sorted(iteritems(dataset[INTENTS]))}
-    for intent in itervalues(dataset[INTENTS]):
+        for intent_name, intent_data in sorted(dataset[INTENTS].items())}
+    for intent in dataset[INTENTS].values():
         _validate_and_format_intent(intent, dataset[ENTITIES])
 
     utterance_entities_values = extract_utterance_entities(dataset)
@@ -62,9 +58,9 @@ def validate_and_format_dataset(dataset):
 
     dataset[ENTITIES] = {
         intent_name: entity_data
-        for intent_name, entity_data in sorted(iteritems(dataset[ENTITIES]))}
+        for intent_name, entity_data in sorted(dataset[ENTITIES].items())}
 
-    for entity_name, entity in iteritems(dataset[ENTITIES]):
+    for entity_name, entity in dataset[ENTITIES].items():
         uterrance_entities = utterance_entities_values[entity_name]
         if is_builtin_entity(entity_name):
             dataset[ENTITIES][entity_name] = \
@@ -216,13 +212,13 @@ def _validate_and_format_custom_entity(entity, utterance_entities, language,
                 value, language, builtin_entity_parser, **variations_args)
         )
     variation_counter = Counter(
-        [v for variations_ in itervalues(variations) for v in variations_])
+        [v for variations_ in variations.values() for v in variations_])
     non_colliding_variations = {
         value: [
             v for v in variations if
             v not in all_original_values and variation_counter[v] == 1
         ]
-        for value, variations in iteritems(variations)
+        for value, variations in variations.items()
     }
 
     for entry in entity[DATA]:
@@ -237,7 +233,7 @@ def _validate_and_format_custom_entity(entity, utterance_entities, language,
         for ent in utterance_entities
     }
 
-    for original_ent, variations in iteritems(utterance_entities_variations):
+    for original_ent, variations in utterance_entities_variations.items():
         if not original_ent or original_ent in validated_utterances:
             continue
         validated_utterances[original_ent] = original_ent

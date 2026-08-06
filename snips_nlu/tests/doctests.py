@@ -1,7 +1,7 @@
 import doctest
 import unittest
 
-from future.moves import sys
+import sys
 
 import snips_nlu.dataset
 import snips_nlu.result

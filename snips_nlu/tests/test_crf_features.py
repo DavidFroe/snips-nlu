@@ -1,9 +1,7 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
 
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 from snips_nlu.constants import LANGUAGE, LANGUAGE_EN, SNIPS_DATETIME, \
     SNIPS_NUMBER, STEMS, GAZETTEERS, WORD_CLUSTERS

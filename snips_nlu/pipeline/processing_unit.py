@@ -1,13 +1,9 @@
-from __future__ import unicode_literals
-
 import io
 import json
 import shutil
 from abc import ABCMeta, abstractmethod, abstractproperty
-from builtins import str, bytes
 from pathlib import Path
 
-from future.utils import with_metaclass
 
 from snips_nlu.common.abc_utils import abstractclassmethod, classproperty
 from snips_nlu.common.io_utils import temp_dir, unzip_archive
@@ -25,7 +21,7 @@ from snips_nlu.pipeline.configs.config import DefaultProcessingUnitConfig
 from snips_nlu.resources import load_resources
 
 
-class ProcessingUnit(with_metaclass(ABCMeta, Registrable)):
+class ProcessingUnit(Registrable, metaclass=ABCMeta):
     """Abstraction of a NLU pipeline unit
 
     Pipeline processing units such as intent parsers, intent classifiers and

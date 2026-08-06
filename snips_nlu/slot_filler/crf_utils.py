@@ -1,6 +1,3 @@
-from __future__ import unicode_literals
-
-from builtins import range
 from enum import Enum, unique
 
 from snips_nlu.constants import END, SLOT_NAME, START, TEXT

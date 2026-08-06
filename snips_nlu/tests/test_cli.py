@@ -4,7 +4,7 @@ import shutil
 import sys
 import tempfile
 
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.__about__ import __model_version__, __version__
 from snips_nlu.cli import get_arg_parser

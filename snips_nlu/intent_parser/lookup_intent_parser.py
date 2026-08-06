@@ -1,13 +1,9 @@
-from __future__ import unicode_literals
-
 import json
 import logging
-from builtins import str
 from collections import defaultdict
 from itertools import combinations
 from pathlib import Path
 
-from future.utils import iteritems, itervalues
 from snips_nlu_utils import normalize, hash_str
 
 from snips_nlu.common.log_utils import log_elapsed_time, log_result
@@ -173,7 +169,7 @@ class LookupIntentParser(IntentParser):
                     results_per_intent[intent_name].append(result)
 
         results = []
-        for intent_results in itervalues(results_per_intent):
+        for intent_results in results_per_intent.values():
             sorted_results = sorted(intent_results,
                                     key=lambda res: len(res[RES_SLOTS]))
             results.append(sorted_results[0])
@@ -347,7 +343,7 @@ class LookupIntentParser(IntentParser):
 
     def _generate_io_mapping(self, intents, entity_placeholders):
         """Generate input-output pairs"""
-        for intent_name, intent in sorted(iteritems(intents)):
+        for intent_name, intent in sorted(intents.items()):
             intent_id = self._get_intent_id(intent_name)
             for entry in intent[UTTERANCES]:
                 yield self._build_io_mapping(
@@ -427,7 +423,7 @@ class LookupIntentParser(IntentParser):
         if self._stop_words_whitelist is not None:
             stop_words_whitelist = {
                 intent: sorted(values)
-                for intent, values in iteritems(self._stop_words_whitelist)}
+                for intent, values in self._stop_words_whitelist.items()}
         return {
             "config": self.config.to_dict(),
             "language_code": self.language,
@@ -456,7 +452,7 @@ class LookupIntentParser(IntentParser):
         if parser.fitted:
             whitelist = unit_dict["stop_words_whitelist"]
             parser._stop_words_whitelist = {
-                intent: set(values) for intent, values in iteritems(whitelist)}
+                intent: set(values) for intent, values in whitelist.items()}
         # pylint:enable=protected-access
         return parser
 
@@ -465,7 +461,7 @@ def _get_entity_scopes(dataset):
     intent_entities = extract_intent_entities(dataset)
     intent_groups = []
     entity_scopes = []
-    for intent, entities in sorted(iteritems(intent_entities)):
+    for intent, entities in sorted(intent_entities.items()):
         scope = {
             "builtin": list(
                 {ent for ent in entities if is_builtin_entity(ent)}),
@@ -498,7 +494,7 @@ def _get_entity_name_placeholder(entity_label, language):
 
 def _convert_dict_keys_to_int(dct):
     if isinstance(dct, dict):
-        return {int(k): v for k, v in iteritems(dct)}
+        return {int(k): v for k, v in dct.items()}
     return dct
 
 

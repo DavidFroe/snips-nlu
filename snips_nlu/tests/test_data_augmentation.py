@@ -1,9 +1,6 @@
-from __future__ import unicode_literals
-
-from builtins import next, range
 
 import numpy as np
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.constants import LANGUAGE_EN, STOP_WORDS
 from snips_nlu.data_augmentation import (

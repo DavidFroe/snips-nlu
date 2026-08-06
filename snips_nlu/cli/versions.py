@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 
 def add_version_parser(subparsers, formatter_class):
     from snips_nlu.__about__ import __version__

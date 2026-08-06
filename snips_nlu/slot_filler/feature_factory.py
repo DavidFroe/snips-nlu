@@ -1,11 +1,7 @@
-from __future__ import unicode_literals
-
 import logging
 
 from abc import ABCMeta, abstractmethod
-from builtins import str
 
-from future.utils import with_metaclass
 
 from snips_nlu.common.abc_utils import classproperty
 from snips_nlu.common.registrable import Registrable
@@ -30,7 +26,7 @@ from snips_nlu.slot_filler.features_utils import (
 logger = logging.getLogger(__name__)
 
 
-class CRFFeatureFactory(with_metaclass(ABCMeta, Registrable)):
+class CRFFeatureFactory(Registrable, metaclass=ABCMeta):
     """Abstraction to implement to build CRF features
 
     A :class:`CRFFeatureFactory` is initialized with a dict which describes
@@ -94,7 +90,7 @@ class CRFFeatureFactory(with_metaclass(ABCMeta, Registrable)):
         return None
 
 
-class SingleFeatureFactory(with_metaclass(ABCMeta, CRFFeatureFactory)):
+class SingleFeatureFactory(CRFFeatureFactory, metaclass=ABCMeta):
     """A CRF feature factory which produces only one feature"""
 
     @property

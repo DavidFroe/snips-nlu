@@ -1,11 +1,8 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
-from builtins import range, str
 
-from future.utils import iteritems
-from mock import mock, patch
+from unittest import mock
+from unittest.mock import patch
 
 from snips_nlu.constants import ENTITIES, SNIPS_DATETIME, VALIDATED
 from snips_nlu.dataset import Dataset
@@ -1014,7 +1011,7 @@ class TestDatasetValidation(SnipsTest):
             }
         }
 
-        for num_ents, expected_args in iteritems(args):
+        for num_ents, expected_args in args.items():
             entity = {
                 "matching_strictness": 1.0,
                 "use_synonyms": False,

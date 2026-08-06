@@ -1,8 +1,5 @@
-from __future__ import unicode_literals
 
-from builtins import range
-
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.constants import LANGUAGE_EN
 from snips_nlu.preprocessing import Token, tokenize

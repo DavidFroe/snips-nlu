@@ -1,10 +1,6 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 from abc import ABCMeta, abstractmethod
 
-from future.builtins import object
-from future.utils import with_metaclass
 
 from snips_nlu.common.dict_utils import LimitedSizeDict
 
@@ -19,7 +15,7 @@ except ImportError:
 # pylint: enable=ungrouped-imports
 
 
-class EntityParser(with_metaclass(ABCMeta, object)):
+class EntityParser(object, metaclass=ABCMeta):
     """Abstraction of a entity parser implementing some basic caching
     """
 

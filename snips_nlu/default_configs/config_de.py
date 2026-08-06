@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 CONFIG = {
     "unit_name": "nlu_engine",
     "intent_parsers_configs": [

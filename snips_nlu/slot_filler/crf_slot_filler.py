@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import base64
 import json
 import logging
@@ -7,11 +5,9 @@ import math
 import os
 import shutil
 import tempfile
-from builtins import range
 from copy import deepcopy
 from pathlib import Path
 
-from future.utils import iteritems
 
 from snips_nlu.common.dataset_utils import get_slot_name_mapping
 from snips_nlu.common.dict_utils import UnupdatableDict
@@ -253,7 +249,7 @@ class CRFSlotFiller(SlotFiller):
         log = ""
         transition_features = self.crf_model.transition_features_
         transition_features = sorted(
-            iteritems(transition_features), key=_weight_absolute_value,
+            transition_features.items(), key=_weight_absolute_value,
             reverse=True)
         log += "\nTransition weights: \n\n"
         for (state_1, state_2), weight in transition_features:
@@ -261,7 +257,7 @@ class CRFSlotFiller(SlotFiller):
                 _decode_tag(state_1), _decode_tag(state_2), weight)
         feature_weights = self.crf_model.state_features_
         feature_weights = sorted(
-            iteritems(feature_weights), key=_weight_absolute_value,
+            feature_weights.items(), key=_weight_absolute_value,
             reverse=True)
         log += "\n\nFeature weights: \n\n"
         for (feat, tag), weight in feature_weights:
@@ -270,7 +266,7 @@ class CRFSlotFiller(SlotFiller):
 
     def log_inference_weights(self, text, tokens, features, tags):
         model_features = set(
-            f for (f, _), w in iteritems(self.crf_model.state_features_))
+            f for (f, _), w in self.crf_model.state_features_.items())
         log = "Feature weights for \"%s\":\n\n" % text
         max_index = len(tokens) - 1
         tokens_logs = []
@@ -307,7 +303,7 @@ class CRFSlotFiller(SlotFiller):
                 else:
                     token_log += \
                         "\n\nNo transition to next tag seen at train time !"
-            feats = [":".join(f) for f in iteritems(feats)]
+            feats = [":".join(f) for f in feats.items()]
             weights = (w for f in feats for w in self._get_feature_weight(f))
             weights = sorted(weights, key=_weight_absolute_value, reverse=True)
             if weights:
@@ -332,19 +328,19 @@ class CRFSlotFiller(SlotFiller):
     @fitted_required
     def _get_incoming_weights(self, tag):
         return [((first, second), w) for (first, second), w
-                in iteritems(self.crf_model.transition_features_)
+                in self.crf_model.transition_features_.items()
                 if second == tag]
 
     @fitted_required
     def _get_outgoing_weights(self, tag):
         return [((first, second), w) for (first, second), w
-                in iteritems(self.crf_model.transition_features_)
+                in self.crf_model.transition_features_.items()
                 if first == tag]
 
     @fitted_required
     def _get_feature_weight(self, feature):
         return [((f, tag), w) for (f, tag), w
-                in iteritems(self.crf_model.state_features_) if f == feature]
+                in self.crf_model.state_features_.items() if f == feature]
 
     @check_persisted_path
     def persist(self, path):

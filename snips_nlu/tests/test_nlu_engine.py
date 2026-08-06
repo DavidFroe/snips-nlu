@@ -1,14 +1,11 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
 import shutil
 import sys
-from builtins import str
 from unittest import skipIf
 
 from checksumdir import dirhash
-from mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
 from snips_nlu_parsers import get_all_languages
 
 import snips_nlu

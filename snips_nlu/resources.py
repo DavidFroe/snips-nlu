@@ -1,11 +1,8 @@
-from __future__ import unicode_literals
-
 import json
 from collections import defaultdict
 from copy import deepcopy
 from pathlib import Path
 
-from future.utils import iteritems
 
 from snips_nlu.common.utils import get_package_path, is_package, json_string
 from snips_nlu.constants import (
@@ -312,7 +309,7 @@ def _load_word_clusters(path):
 
 def _persist_word_clusters(word_clusters, path):
     with path.open(encoding="utf8", mode="w") as f:
-        for word, cluster in sorted(iteritems(word_clusters)):
+        for word, cluster in sorted(word_clusters.items()):
             f.write("%s\t%s\n" % (word, cluster))
 
 
@@ -361,10 +358,10 @@ def _load_stems(path):
 
 def _persist_stems(stems, path):
     reversed_stems = defaultdict(list)
-    for value, stem in iteritems(stems):
+    for value, stem in stems.items():
         reversed_stems[stem].append(value)
     with path.open(encoding="utf8", mode="w") as f:
-        for stem, values in sorted(iteritems(reversed_stems)):
+        for stem, values in sorted(reversed_stems.items()):
             elements = [stem] + sorted(values)
             line = ",".join(elements)
             f.write("%s\n" % line)

@@ -1,7 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
-from mock import patch
+from unittest.mock import patch
 from snips_nlu_parsers import get_all_languages
 
 from snips_nlu.constants import ENTITIES, LANGUAGE

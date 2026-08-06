@@ -1,9 +1,6 @@
-from __future__ import unicode_literals
-
 import json
 import shutil
 
-from future.builtins import str
 
 from snips_nlu.common.io_utils import temp_dir
 from snips_nlu.common.utils import json_string

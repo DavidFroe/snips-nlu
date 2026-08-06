@@ -1,6 +1,4 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 from snips_nlu.constants import NGRAM, TOKEN_INDEXES
 from snips_nlu.slot_filler.features_utils import get_all_ngrams
 from snips_nlu.tests.utils import SnipsTest

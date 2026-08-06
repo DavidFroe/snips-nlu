@@ -1,6 +1,4 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 from snips_nlu_parsers import get_all_languages
 
 from snips_nlu.constants import LANGUAGE_EN

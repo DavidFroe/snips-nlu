@@ -1,8 +1,5 @@
-from __future__ import unicode_literals
-
 import json
 import logging
-from builtins import range, str, zip
 from pathlib import Path
 
 from snips_nlu.common.log_utils import DifferedLoggingMessage, log_elapsed_time
@@ -29,7 +26,7 @@ logger = logging.getLogger(__name__)
 # effect) but will change in 0.21 to 1e-3. Specify tol to silence this warning.
 
 LOG_REG_ARGS = {
-    "loss": "log",
+    "loss": "log_loss",
     "penalty": "l2",
     "max_iter": 1000,
     "tol": 1e-3,
@@ -64,6 +61,7 @@ class LogRegIntentClassifier(IntentClassifier):
         Returns:
             :class:`LogRegIntentClassifier`: The same instance, trained
         """
+        import numpy as np
         from sklearn.linear_model import SGDClassifier
         from sklearn.utils import compute_class_weight
 
@@ -104,7 +102,7 @@ class LogRegIntentClassifier(IntentClassifier):
         alpha = get_regularization_factor(dataset)
 
         class_weights_arr = compute_class_weight(
-            "balanced", range(none_class + 1), classes)
+            "balanced", classes=np.arange(none_class + 1), y=classes)
         # Re-weight the noise class
         class_weights_arr[-1] *= self.config.noise_reweight_factor
         class_weight = {idx: w for idx, w in enumerate(class_weights_arr)}

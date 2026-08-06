@@ -1,13 +1,9 @@
-from __future__ import unicode_literals
-
 import json
 import logging
 import re
-from builtins import str
 from collections import defaultdict
 from pathlib import Path
 
-from future.utils import iteritems, itervalues
 
 from snips_nlu.common.dataset_utils import get_slot_name_mappings
 from snips_nlu.common.log_utils import log_elapsed_time, log_result
@@ -88,12 +84,12 @@ class DeterministicIntentParser(IntentParser):
         else:
             self.entity_scopes = {
                 intent: {
-                    "builtin": {ent for ent in itervalues(slot_mapping)
+                    "builtin": {ent for ent in slot_mapping.values()
                                 if is_builtin_entity(ent)},
-                    "custom": {ent for ent in itervalues(slot_mapping)
+                    "custom": {ent for ent in slot_mapping.values()
                                if not is_builtin_entity(ent)}
                 }
-                for intent, slot_mapping in iteritems(value)}
+                for intent, slot_mapping in value.items()}
 
     @property
     def group_names_to_slot_names(self):
@@ -104,21 +100,21 @@ class DeterministicIntentParser(IntentParser):
         self._group_names_to_slot_names = value
         if value is not None:
             self.slot_names_to_group_names = {
-                slot_name: group for group, slot_name in iteritems(value)}
+                slot_name: group for group, slot_name in value.items()}
 
     @property
     def patterns(self):
         """Dictionary of patterns per intent"""
         if self.regexes_per_intent is not None:
             return {i: [r.pattern for r in regex_list] for i, regex_list in
-                    iteritems(self.regexes_per_intent)}
+                    self.regexes_per_intent.items()}
         return None
 
     @patterns.setter
     def patterns(self, value):
         if value is not None:
             self.regexes_per_intent = dict()
-            for intent, pattern_list in iteritems(value):
+            for intent, pattern_list in value.items():
                 regexes = [re.compile(r"%s" % p, re.IGNORECASE)
                            for p in pattern_list]
                 self.regexes_per_intent[intent] = regexes
@@ -150,7 +146,7 @@ class DeterministicIntentParser(IntentParser):
         all_patterns = set()
         ambiguous_patterns = set()
         intent_patterns = dict()
-        for intent_name, intent in iteritems(dataset[INTENTS]):
+        for intent_name, intent in dataset[INTENTS].items():
             patterns = self._generate_patterns(intent_name, intent[UTTERANCES],
                                                entity_placeholders)
             patterns = [p for p in patterns
@@ -160,7 +156,7 @@ class DeterministicIntentParser(IntentParser):
             all_patterns.update(set(patterns))
             intent_patterns[intent_name] = patterns
 
-        for intent_name, patterns in iteritems(intent_patterns):
+        for intent_name, patterns in intent_patterns.items():
             patterns = [p for p in patterns if p not in ambiguous_patterns]
             patterns = patterns[:self.config.max_queries]
             regexes = [re.compile(p, re.IGNORECASE) for p in patterns]
@@ -225,7 +221,7 @@ class DeterministicIntentParser(IntentParser):
 
         results = []
 
-        for intent, entity_scope in iteritems(self.entity_scopes):
+        for intent, entity_scope in self.entity_scopes.items():
             if intents is not None and intent not in intents:
                 continue
             builtin_entities = self.builtin_entity_parser.parse(
@@ -438,7 +434,7 @@ class DeterministicIntentParser(IntentParser):
         if self._stop_words_whitelist is not None:
             stop_words_whitelist = {
                 intent: sorted(values)
-                for intent, values in iteritems(self._stop_words_whitelist)}
+                for intent, values in self._stop_words_whitelist.items()}
         return {
             "config": self.config.to_dict(),
             "language_code": self.language,
@@ -466,7 +462,7 @@ class DeterministicIntentParser(IntentParser):
             whitelist = unit_dict.get("stop_words_whitelist", dict())
             # pylint:disable=protected-access
             parser._stop_words_whitelist = {
-                intent: set(values) for intent, values in iteritems(whitelist)}
+                intent: set(values) for intent, values in whitelist.items()}
             # pylint:enable=protected-access
         return parser
 
@@ -475,7 +471,7 @@ def _get_range_shift(matched_range, ranges_mapping):
     shift = 0
     previous_replaced_range_end = None
     matched_start = matched_range[0]
-    for replaced_range, orig_range in iteritems(ranges_mapping):
+    for replaced_range, orig_range in ranges_mapping.items():
         if replaced_range[1] <= matched_start:
             if previous_replaced_range_end is None \
                     or replaced_range[1] > previous_replaced_range_end:
@@ -485,7 +481,7 @@ def _get_range_shift(matched_range, ranges_mapping):
 
 
 def _get_group_names_to_slot_names(slot_names_mapping):
-    slot_names = {slot_name for mapping in itervalues(slot_names_mapping)
+    slot_names = {slot_name for mapping in slot_names_mapping.values()
                   for slot_name in mapping}
     return {"group%s" % i: name
             for i, name in enumerate(sorted(slot_names))}

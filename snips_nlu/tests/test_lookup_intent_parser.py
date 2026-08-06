@@ -1,10 +1,8 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
 from copy import deepcopy
 
-from mock import patch
+from unittest.mock import patch
 from snips_nlu_utils import hash_str
 
 from snips_nlu.constants import (

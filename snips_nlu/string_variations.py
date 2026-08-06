@@ -1,11 +1,7 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import itertools
 import re
-from builtins import range, str, zip
 
-from future.utils import iteritems
 
 from snips_nlu.constants import (
     END, LANGUAGE_DE, LANGUAGE_EN, LANGUAGE_ES, LANGUAGE_FR, RESOLVED_VALUE,
@@ -25,7 +21,7 @@ AND_REGEXES = {
     language: re.compile(
         r"|".join(r"(?<=\s)%s(?=\s)" % re.escape(u) for u in utterances),
         re.IGNORECASE)
-    for language, utterances in iteritems(AND_UTTERANCES)
+    for language, utterances in AND_UTTERANCES.items()
 }
 
 MAX_ENTITY_VARIATIONS = 10

@@ -1,5 +1,3 @@
-from __future__ import unicode_literals, print_function
-
 
 def add_parse_parser(subparsers, formatter_class):
     subparser = subparsers.add_parser(
@@ -27,7 +25,6 @@ def parse(training_path, query, verbose=False, intents_filter=None):
     """Load a trained NLU engine and play with its parsing API interactively"""
     import csv
     import logging
-    from builtins import input, str
     from snips_nlu import SnipsNLUEngine
     from snips_nlu.cli.utils import set_nlu_logger
 

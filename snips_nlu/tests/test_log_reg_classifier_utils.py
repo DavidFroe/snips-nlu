@@ -1,13 +1,10 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
 from copy import deepcopy
 from itertools import cycle
 
 import numpy as np
-from future.utils import itervalues, iteritems
-from mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 from snips_nlu.constants import (
     INTENTS, LANGUAGE_EN, UTTERANCES, LANGUAGE, NOISE)
@@ -59,7 +56,7 @@ utterances:
 
         # Then
         expected_utterances = [utterance for _, intent
-                               in sorted(iteritems(dataset[INTENTS]))
+                               in sorted(dataset[INTENTS].items())
                                for utterance in intent[UTTERANCES]]
         expected_intent_mapping = ["my_first_intent", "my_second_intent"]
         self.assertListEqual(expected_utterances, utterances)
@@ -106,7 +103,7 @@ utterances:
 
         # Then
         expected_utterances = [utterance
-                               for intent in itervalues(dataset[INTENTS])
+                               for intent in dataset[INTENTS].values()
                                for utterance in intent[UTTERANCES]]
         np.random.seed(42)
         noise_size = int(min(noise_factor * num_queries_per_intent,
@@ -379,7 +376,7 @@ utterances:
 
         # Then
         expected_utterances = [utterance
-                               for intent in itervalues(dataset[INTENTS])
+                               for intent in dataset[INTENTS].values()
                                for utterance in intent[UTTERANCES]]
         np.random.seed(42)
         noise = list(mocked_noises)

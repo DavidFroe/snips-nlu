@@ -1,6 +1,3 @@
-from __future__ import unicode_literals
-
-from future.utils import iteritems, itervalues
 
 from snips_nlu.constants import (
     DATA, ENTITIES, ENTITY, INTENTS, TEXT, UTTERANCES)
@@ -10,17 +7,17 @@ from snips_nlu.entity_parser.builtin_entity_parser import is_gazetteer_entity
 def extract_utterance_entities(dataset):
     entities_values = {ent_name: set() for ent_name in dataset[ENTITIES]}
 
-    for intent in itervalues(dataset[INTENTS]):
+    for intent in dataset[INTENTS].values():
         for utterance in intent[UTTERANCES]:
             for chunk in utterance[DATA]:
                 if ENTITY in chunk:
                     entities_values[chunk[ENTITY]].add(chunk[TEXT].strip())
-    return {k: list(v) for k, v in iteritems(entities_values)}
+    return {k: list(v) for k, v in entities_values.items()}
 
 
 def extract_intent_entities(dataset, entity_filter=None):
     intent_entities = {intent: set() for intent in dataset[INTENTS]}
-    for intent_name, intent_data in iteritems(dataset[INTENTS]):
+    for intent_name, intent_data in dataset[INTENTS].items():
         for utterance in intent_data[UTTERANCES]:
             for chunk in utterance[DATA]:
                 if ENTITY in chunk:
@@ -35,7 +32,7 @@ def extract_entity_values(dataset, apply_normalization):
 
     entities_per_intent = {intent: set() for intent in dataset[INTENTS]}
     intent_entities = extract_intent_entities(dataset)
-    for intent, entities in iteritems(intent_entities):
+    for intent, entities in intent_entities.items():
         for entity in entities:
             entity_values = set(dataset[ENTITIES][entity][UTTERANCES])
             if apply_normalization:
@@ -60,7 +57,7 @@ def get_stop_words_whitelist(dataset, stop_words):
     entity_values_per_intent = extract_entity_values(
         dataset, apply_normalization=True)
     stop_words_whitelist = dict()
-    for intent, entity_values in iteritems(entity_values_per_intent):
+    for intent, entity_values in entity_values_per_intent.items():
         whitelist = stop_words.intersection(entity_values)
         if whitelist:
             stop_words_whitelist[intent] = whitelist

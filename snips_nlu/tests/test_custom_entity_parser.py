@@ -1,9 +1,7 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 from pathlib import Path
 
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.constants import STEMS
 from snips_nlu.dataset import validate_and_format_dataset

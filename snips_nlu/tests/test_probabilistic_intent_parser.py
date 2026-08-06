@@ -1,9 +1,6 @@
-from __future__ import unicode_literals
-
 import io
 
-from future.utils import itervalues
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.constants import (
     RES_ENTITY, RES_INTENT, RES_INTENT_NAME, RES_SLOTS, RES_VALUE,
@@ -603,7 +600,7 @@ utterances:
         self.assertIsInstance(parser.intent_classifier, MyIntentClassifier)
         self.assertListEqual(sorted(parser.slot_fillers),
                              ["MakeCoffee", "MakeTea"])
-        for slot_filler in itervalues(parser.slot_fillers):
+        for slot_filler in parser.slot_fillers.values():
             self.assertIsInstance(slot_filler, MySlotFiller)
 
     def test_should_be_serializable_into_bytearray(self):

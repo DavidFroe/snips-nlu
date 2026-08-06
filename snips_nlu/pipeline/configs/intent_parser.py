@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from snips_nlu.common.from_dict import FromDict
 from snips_nlu.constants import CUSTOM_ENTITY_PARSER_USAGE, STOP_WORDS
 from snips_nlu.entity_parser import CustomEntityParserUsage

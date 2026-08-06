@@ -1,10 +1,6 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from abc import ABCMeta, abstractmethod
-from builtins import object
 from io import IOBase
 
-from future.utils import with_metaclass
 
 from snips_nlu.constants import DATA, ENTITY, SLOT_NAME, TEXT, UTTERANCES
 from snips_nlu.exceptions import IntentFormatError
@@ -196,7 +192,7 @@ class IntentUtterance(object):
         return cls(sm.chunks)
 
 
-class Chunk(with_metaclass(ABCMeta, object)):
+class Chunk(object, metaclass=ABCMeta):
     def __init__(self, text):
         self.text = text
 

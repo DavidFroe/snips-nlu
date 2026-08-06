@@ -1,9 +1,5 @@
 # coding=utf-8
-from __future__ import print_function, unicode_literals
 
-from builtins import str
-
-from future.utils import iteritems
 from snips_nlu_metrics import compute_cross_val_metrics
 
 from snips_nlu.constants import LANGUAGE_EN
@@ -35,7 +31,7 @@ class IntegrationTestSnipsNLUEngine(SnipsTest):
         self.check_metrics(results)
 
     def check_metrics(self, results):
-        for intent_name, intent_metrics in iteritems(results["metrics"]):
+        for intent_name, intent_metrics in results["metrics"].items():
             if intent_name is None or intent_name == "null":
                 continue
             classification_f1 = intent_metrics["intent"]["f1"]
@@ -43,7 +39,7 @@ class IntegrationTestSnipsNLUEngine(SnipsTest):
                 classification_f1, INTENT_CLASSIFICATION_THRESHOLD,
                 "Intent classification f1 score is too low (%.3f) for intent "
                 "'%s'" % (classification_f1, intent_name))
-            for slot_name, slot_metrics in iteritems(intent_metrics["slots"]):
+            for slot_name, slot_metrics in intent_metrics["slots"].items():
                 slot_f1 = slot_metrics["f1"]
                 self.assertGreaterEqual(
                     slot_f1, SLOT_FILLING_THRESHOLD,

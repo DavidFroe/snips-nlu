@@ -1,13 +1,10 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import io
 import sys
-from builtins import str
 from unittest import skipIf
 
 from checksumdir import dirhash
-from mock import patch
+from unittest.mock import patch
 
 from snips_nlu.common.io_utils import temp_dir
 from snips_nlu.constants import (

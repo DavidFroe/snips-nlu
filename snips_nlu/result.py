@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from snips_nlu.constants import (
     RES_ENTITY, RES_INPUT, RES_INTENT, RES_INTENT_NAME, RES_MATCH_RANGE,
     RES_PROBA, RES_RAW_VALUE, RES_SLOTS, RES_SLOT_NAME, RES_VALUE, ENTITY_KIND,

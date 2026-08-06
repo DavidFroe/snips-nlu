@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from deprecation import fail_if_not_removed
 
 from snips_nlu import load_resources as load_resources_the_old_way

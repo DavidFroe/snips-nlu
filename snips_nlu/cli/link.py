@@ -1,5 +1,3 @@
-from __future__ import print_function, unicode_literals
-
 
 def add_link_parser(subparsers, formatter_class):
     subparser = subparsers.add_parser(

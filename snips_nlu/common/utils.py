@@ -1,15 +1,11 @@
-from __future__ import unicode_literals
-
 import importlib
 import json
 import numbers
 import re
-from builtins import bytes as newbytes, str as newstr
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
 
-from future.utils import text_type
 
 from snips_nlu.constants import (END, ENTITY_KIND, RES_MATCH_RANGE, RES_VALUE,
                                  START)
@@ -95,14 +91,10 @@ def json_string(json_object, indent=2, sort_keys=True):
 
 
 def unicode_string(string):
-    if isinstance(string, text_type):
+    if isinstance(string, str):
         return string
-    if isinstance(string, bytes):
-        return string.decode("utf8")
-    if isinstance(string, newstr):
-        return text_type(string)
-    if isinstance(string, newbytes):
-        string = bytes(string).decode("utf8")
+    if isinstance(string, (bytes, bytearray)):
+        return bytes(string).decode("utf8")
 
     raise TypeError("Cannot convert %s into unicode string" % type(string))
 
@@ -138,12 +130,12 @@ def is_package(name):
         bool: True if an installed packaged corresponds to this name, False
             otherwise.
     """
-    import pkg_resources
+    from importlib.metadata import distributions
 
     name = name.lower().replace("-", "_")
-    packages = pkg_resources.working_set.by_key.keys()
-    for package in packages:
-        if package.lower().replace("-", "_") == name:
+    for distribution in distributions():
+        package = distribution.metadata["Name"]
+        if package and package.lower().replace("-", "_") == name:
             return True
     return False
 

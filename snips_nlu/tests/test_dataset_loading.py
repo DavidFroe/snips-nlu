@@ -1,9 +1,7 @@
-from __future__ import unicode_literals
-
 import io
 from unittest import TestCase
 
-import mock
+from unittest import mock
 
 from snips_nlu.dataset import Dataset, validate_and_format_dataset
 

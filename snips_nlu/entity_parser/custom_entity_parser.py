@@ -1,12 +1,9 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 import json
 import operator
 from copy import deepcopy
 from pathlib import Path
 
-from future.utils import iteritems, viewvalues
 
 from snips_nlu.common.utils import json_string
 from snips_nlu.constants import (
@@ -86,17 +83,17 @@ class CustomEntityParser(EntityParser):
         language = dataset[LANGUAGE]
         custom_entities = {
             entity_name: deepcopy(entity)
-            for entity_name, entity in iteritems(dataset[ENTITIES])
+            for entity_name, entity in dataset[ENTITIES].items()
             if not is_builtin_entity(entity_name)
         }
         if parser_usage == CustomEntityParserUsage.WITH_AND_WITHOUT_STEMS:
-            for ent in viewvalues(custom_entities):
+            for ent in custom_entities.values():
                 stemmed_utterances = _stem_entity_utterances(
                     ent[UTTERANCES], language, resources)
                 ent[UTTERANCES] = _merge_entity_utterances(
                     ent[UTTERANCES], stemmed_utterances)
         elif parser_usage == CustomEntityParserUsage.WITH_STEMS:
-            for ent in viewvalues(custom_entities):
+            for ent in custom_entities.values():
                 ent[UTTERANCES] = _stem_entity_utterances(
                     ent[UTTERANCES], language, resources)
         elif parser_usage is None:
@@ -115,7 +112,7 @@ def _stem_entity_utterances(entity_utterances, language, resources):
     values = dict()
     # Sort by resolved value, so that values conflict in a deterministic way
     for raw_value, resolved_value in sorted(
-            iteritems(entity_utterances), key=operator.itemgetter(1)):
+            entity_utterances.items(), key=operator.itemgetter(1)):
         stemmed_value = stem(raw_value, language, resources)
         if stemmed_value not in values:
             values[stemmed_value] = resolved_value
@@ -125,7 +122,7 @@ def _stem_entity_utterances(entity_utterances, language, resources):
 def _merge_entity_utterances(raw_utterances, stemmed_utterances):
     # Sort by resolved value, so that values conflict in a deterministic way
     for raw_stemmed_value, resolved_value in sorted(
-            iteritems(stemmed_utterances), key=operator.itemgetter(1)):
+            stemmed_utterances.items(), key=operator.itemgetter(1)):
         if raw_stemmed_value not in raw_utterances:
             raw_utterances[raw_stemmed_value] = resolved_value
     return raw_utterances
@@ -150,7 +147,7 @@ def _create_custom_entity_parser_configuration(
         raise ValueError("stopwords_fraction must be in ]0.0, 1.0[")
 
     parser_configurations = []
-    for entity_name, entity in sorted(iteritems(entities)):
+    for entity_name, entity in sorted(entities.items()):
         vocabulary = set(
             t for raw_value in entity[UTTERANCES]
             for t in tokenize_light(raw_value, language)
@@ -165,7 +162,7 @@ def _create_custom_entity_parser_configuration(
                     {
                         "raw_value": k,
                         "resolved_value": v
-                    } for k, v in sorted(iteritems(entity[UTTERANCES]))
+                    } for k, v in sorted(entity[UTTERANCES].items())
                 ]
             }
         }

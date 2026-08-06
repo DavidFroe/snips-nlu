@@ -2,7 +2,6 @@
 # See github.com/allenai/allennlp/blob/master/allennlp/common/registrable.py
 
 from collections import defaultdict
-from future.utils import iteritems
 
 from snips_nlu.exceptions import AlreadyRegisteredError, NotRegisteredError
 
@@ -57,7 +56,7 @@ class Registrable(object):
 
     @classmethod
     def registered_name(cls, registered_class):
-        for name, subclass in iteritems(Registrable._registry[cls]):
+        for name, subclass in Registrable._registry[cls].items():
             if subclass == registered_class:
                 return name
         raise NotRegisteredError(cls, registered_cls=registered_class)

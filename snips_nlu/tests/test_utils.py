@@ -1,10 +1,6 @@
-from __future__ import unicode_literals
-
 import logging
 
-from future.builtins import object, str
-from future.utils import iteritems
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 from snips_nlu import __model_version__, __version__
 from snips_nlu.common.dict_utils import LimitedSizeDict
@@ -31,7 +27,7 @@ class TestLimitedSizeDict(SnipsTest):
         # When
         d = LimitedSizeDict(sequence, size_limit=size_limit)
         # Then
-        items = sorted(iteritems(d), key=lambda i: i[0])
+        items = sorted(d.items(), key=lambda i: i[0])
         self.assertListEqual(items, sequence)
 
     def test_should_initialize_without_argument(self):
@@ -62,7 +58,7 @@ class TestLimitedSizeDict(SnipsTest):
         for k, v in sequence[size_limit:]:
             my_dict[k] = v
         # Then
-        items = sorted(list(iteritems(my_dict)), key=lambda i: i[0])
+        items = sorted(list(my_dict.items()), key=lambda i: i[0])
         self.assertListEqual(items, sequence[size_limit:])
 
 
