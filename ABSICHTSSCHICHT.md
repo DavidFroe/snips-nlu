@@ -63,12 +63,19 @@ freigegeben hat.
 | `offener_dialog: True` | für Absichten **mit Aktion** niemals `direkt` |
 | keine `letzte_frage` im Kontext | ein „ja" ist bedeutungslos → `durchreichen` |
 
-Dazu die harte Grenze im Erkenner: Steht ein Verneinungswort in der Nachricht,
-ist `zustimmung` **ausgeschlossen** — unabhängig von jeder Sicherheit.
+Dazu die harte Grenze: Steht ein Verneinungswort in der Nachricht, ist
+`zustimmung` **ausgeschlossen** — unabhängig von jeder Sicherheit.
 „Ja, aber nicht die erste" wird nie zur Freigabe. Das steht als
 `verneinung_schliesst_aus` in den Absichtsdaten und wird von
 `absicht/tests/test_sicherheit.py` an 30 Formulierungen × 4 Kontexten
 geprüft. Fallen diese Tests, wird nichts ausgeliefert.
+
+**Diese Prüfung sitzt bewusst über der Naht**, in
+`absicht.entscheidung.verneinung_sperrt` — nicht im Erkenner. Läge sie
+darunter, hätte jede ausgetauschte Engine ihre eigene Fassung davon oder gar
+keine. Ein Test lässt einen Erkenner los, der bei jeder Nachricht
+`zustimmung` mit Sicherheit 1,0 behauptet, und prüft, dass trotzdem keine
+Freigabe herauskommt.
 
 ## Schwellen
 
@@ -142,9 +149,47 @@ class MeinErkenner:
 absicht.laden(erkenner=MeinErkenner())
 ```
 
-Kommt die portierte NLU-Engine, ersetzt sie das Wörterbuch **hinter** der
-unveränderten Schnittstelle und muss sich an denselben Nachrichten messen
-lassen. Ist sie nicht besser, bleibt das Wörterbuch.
+Die portierte NLU-Engine ist als `absicht/erkenner/snips.py` bereits
+angeschlossen. Sie trainiert aus denselben Absichtsdaten, aus denen das
+Wörterbuch arbeitet — Kurzbefehle und Wortgruppen werden zu Beispielsätzen,
+im Schnitt zwölf je Absicht:
+
+```python
+from absicht.erkenner.snips import SnipsErkenner
+
+erkenner = SnipsErkenner.trainieren(schicht.absichten)
+erkenner.sichern("/opt/bewerbungstrainer/absicht-engine")
+absicht.laden(erkenner=SnipsErkenner.laden("/opt/bewerbungstrainer/absicht-engine"))
+```
+
+Oberhalb der Naht ändert sich dafür keine Zeile — dieselben Schwellen,
+dieselbe Antwortbibliothek, dieselbe harte Grenze.
+
+### Wer gewinnt
+
+```
+$ python -m absicht.bewerten absicht/daten/beispiele_de.jsonl --vergleich
+
+                          woerterbuch         snips
+Richtig zugeordnet          29 (97 %)     28 (93 %)
+davon direkt                       16            16
+davon aufbereitet                  10             7
+davon durchgereicht                 4             7
+Token gespart                    76 %          69 %
+Zeit je Aufruf                0.26 ms       4.30 ms
+Ablehnung als Zustimmung            0             0
+
+Besser: woerterbuch
+```
+
+**Diese Zahlen entscheiden noch nichts.** 30 Nachrichten sind zu wenig, und
+die Engine ist auf dem Wortschatz des Wörterbuchs trainiert — der Vergleich
+bevorzugt das Wörterbuch schon von der Anlage her. Was er zeigt: Die Engine
+läuft, hält die Sicherheitsregeln ein und bleibt mit 4,3 ms unter dem
+Zehn-Millisekunden-Ziel, kostet aber das Sechzehnfache an Zeit.
+
+Entschieden wird an den 253 Nachrichten. Ist die Engine dort nicht besser,
+bleibt das Wörterbuch — und niemand hat etwas verloren.
 
 ## Messen
 

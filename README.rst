@@ -52,8 +52,8 @@ Die vollständige Installation mit NLU-Engine braucht eine
 Stand
 -----
 
-383 Tests grün auf Python 3.13.14 mit numpy 2.5.1, scipy 1.18.0 und
-scikit-learn 1.9.0 — 37 für die Absichtsschicht, 346 für die Engine.
+394 Tests grün auf Python 3.13.14 mit numpy 2.5.1, scipy 1.18.0 und
+scikit-learn 1.9.0 — 48 für die Absichtsschicht, 346 für die Engine.
 
 .. _ABSICHTSSCHICHT.md: ABSICHTSSCHICHT.md
 .. _PYTHON_313.md: PYTHON_313.md

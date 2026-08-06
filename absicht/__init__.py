@@ -24,7 +24,8 @@ from absicht import absichten as _absichten
 from absicht import protokoll as _protokoll
 from absicht.antworten import Antwortbibliothek
 from absicht.entscheidung import (
-    WEG_AUFBEREITET, WEG_DIREKT, WEG_DURCHREICHEN, entscheiden)
+    WEG_AUFBEREITET, WEG_DIREKT, WEG_DURCHREICHEN, entscheiden,
+    verneinung_sperrt)
 from absicht.erkenner.woerterbuch import WoerterbuchErkenner
 from absicht.konfiguration import Konfiguration
 
@@ -42,9 +43,11 @@ class Schicht:
     setzt oder den Erkenner austauscht.
     """
 
-    def __init__(self, erkenner, absichten, antworten, konfiguration):
+    def __init__(self, erkenner, absichten, verneinung, antworten,
+                 konfiguration):
         self.erkenner = erkenner
         self.absichten = absichten
+        self.verneinung = verneinung
         self.antworten = antworten
         self.konfiguration = konfiguration
 
@@ -64,21 +67,26 @@ class Schicht:
         antworten = Antwortbibliothek.laden(
             konfiguration.antworten_datei(), zufall=zufall)
         if erkenner is None:
-            erkenner = WoerterbuchErkenner(
-                definitionen, verneinung, konfiguration)
-        return cls(erkenner, definitionen, antworten, konfiguration)
+            erkenner = WoerterbuchErkenner(definitionen, konfiguration)
+        return cls(erkenner, definitionen, verneinung, antworten,
+                   konfiguration)
 
     def pruefen(self, text, nutzer=None, kontext=None, mit_protokoll=False):
         """Siehe :func:`absicht.pruefen`"""
-        treffer = [
+        erkannt = [
             t for t in self.erkenner.erkennen(text or "")
             if t.absicht in self.absichten]
+        # Die harte Grenze wird hier gezogen, nicht im Erkenner: sie muss
+        # gelten, egal wer unter der Naht arbeitet.
+        treffer, gestrichen = verneinung_sperrt(
+            erkannt, text, self.absichten, self.verneinung)
         ergebnis, spuren = entscheiden(
             treffer, kontext, nutzer, self.absichten, self.antworten,
             self.konfiguration)
 
         satz = _protokoll.satz(
-            text, nutzer, kontext, ergebnis, treffer, spuren["gruende"])
+            text, nutzer, kontext, ergebnis, erkannt,
+            gestrichen + spuren["gruende"])
         _protokoll.schreiben(satz)
         if mit_protokoll:
             ergebnis = dict(ergebnis)

@@ -47,15 +47,13 @@ SICHERHEIT_WENDUNG_MEHRERE_MAX = 0.90
 class WoerterbuchErkenner:
     """Gleicht eine Nachricht gegen die hinterlegten Wortlisten ab"""
 
-    def __init__(self, absichten, verneinung, konfiguration):
+    def __init__(self, absichten, konfiguration):
         """
         Args:
             absichten (dict[str, Absicht]): siehe :mod:`absicht.absichten`
-            verneinung (frozenset[str]): Verneinungswoerter dieser Sprache
             konfiguration (Konfiguration): Aehnlichkeitsgrenzen
         """
         self.absichten = absichten
-        self.verneinung = verneinung
         self.konfiguration = konfiguration
 
         self._kurzbefehle = dict()
@@ -107,14 +105,8 @@ class WoerterbuchErkenner:
         self._anfang_bewerten(nachricht, woerter, bewertung)
         self._wendungen_bewerten(woerter, bewertung)
 
-        verneint = self._verneinung_gefunden(woerter)
         treffer = []
         for name, (sicherheit, begruendung) in bewertung.items():
-            definition = self.absichten[name]
-            if verneint and definition.verneinung_schliesst_aus:
-                # Die harte Grenze: keine Ablehnung darf je als Zustimmung
-                # gelesen werden. Lieber gar kein Treffer als dieser.
-                continue
             treffer.append(Treffer(
                 absicht=name,
                 sicherheit=round(min(sicherheit, 1.0), 4),
@@ -238,16 +230,6 @@ class WoerterbuchErkenner:
                 for wort in self._vokabular_nach_laenge.get(weite, ()))
             self._kandidaten_zwischenspeicher[laenge] = gespeichert
         return gespeichert
-
-    def _verneinung_gefunden(self, woerter):
-        """Steht ein Verneinungswort in der Nachricht?
-
-        Nur exakte Treffer: Verneinungen sind kurz, und ein unscharfer
-        Abgleich wuerde hier in beide Richtungen irren — einmal zu viel, was
-        blockiert, und einmal zu wenig, was gefaehrlich ist.
-        """
-        return any(wort in self.verneinung for wort in woerter)
-
 
 def _merken(bewertung, name, sicherheit, begruendung):
     """Behaelt je Absicht den staerksten Grund"""

@@ -17,9 +17,50 @@ darueber und lassen sich nicht wegkonfigurieren, weil an ihnen der teuerste
 Fehler dieses Systems haengt — siehe :func:`entscheiden`.
 """
 
+from absicht.normalisierung import normalisieren, zerlegen
+
 WEG_DIREKT = "direkt"
 WEG_AUFBEREITET = "aufbereitet"
 WEG_DURCHREICHEN = "durchreichen"
+
+
+def verneinung_sperrt(treffer, text, absichten, verneinung):
+    """Streicht Absichten, die neben einer Verneinung nicht stehen koennen
+
+    **Diese Pruefung steht bewusst ueber der Naht.** Wuerde sie im Erkenner
+    liegen, haette jede ausgetauschte Engine ihre eigene Fassung davon — oder
+    gar keine. Die harte Grenze aus dem Anforderungsdokument darf nicht davon
+    abhaengen, wer gerade unten arbeitet.
+
+    Verglichen wird nur exakt: Verneinungen sind kurz, und ein unscharfer
+    Abgleich wuerde in beide Richtungen irren — einmal zu viel, was
+    blockiert, und einmal zu wenig, was gefaehrlich ist.
+
+    Args:
+        treffer (list[Treffer]): was der Erkenner geliefert hat
+        text (str): der Rohtext der Nachricht
+        absichten (dict[str, Absicht]): die Absichtsdefinitionen
+        verneinung (frozenset[str]): Verneinungswoerter dieser Sprache
+
+    Returns:
+        tuple[list[Treffer], list[str]]: die verbliebenen Treffer und, was
+            gestrichen wurde — Letzteres gehoert ins Protokoll
+    """
+    woerter = zerlegen(normalisieren(text or ""))
+    if not any(wort in verneinung for wort in woerter):
+        return treffer, []
+
+    verblieben = []
+    gestrichen = []
+    for einzelner in treffer:
+        definition = absichten.get(einzelner.absicht)
+        if definition is not None and definition.verneinung_schliesst_aus:
+            gestrichen.append(
+                "'%s' gestrichen: die Nachricht enthaelt eine Verneinung"
+                % einzelner.absicht)
+            continue
+        verblieben.append(einzelner)
+    return verblieben, gestrichen
 
 
 def entscheiden(treffer, kontext, nutzer, absichten, antworten,

@@ -17,6 +17,12 @@ Aufruf::
 
     python -m absicht.bewerten nachrichten.jsonl
     python -m absicht.bewerten nachrichten.jsonl --fehler
+    python -m absicht.bewerten nachrichten.jsonl --erkenner snips
+    python -m absicht.bewerten nachrichten.jsonl --vergleich
+
+``--vergleich`` laesst beide Erkenner ueber dieselben Nachrichten laufen und
+stellt sie nebeneinander. Das ist der Nachweis aus Schritt 3 des Auftrags:
+Die Engine bleibt nur, wenn sie das Woerterbuch schlaegt.
 """
 
 import argparse
@@ -173,6 +179,61 @@ def ausgeben(ergebnis, mit_fehlern=False):
                 print("      - %s" % grund)
 
 
+def schicht_bauen(name):
+    """Baut die Schicht mit dem gewuenschten Erkenner darunter"""
+    if name == "woerterbuch":
+        return absicht.Schicht.laden()
+    if name == "snips":
+        from absicht.erkenner.snips import SnipsErkenner
+
+        vorlage = absicht.Schicht.laden()
+        erkenner = SnipsErkenner.trainieren(vorlage.absichten,
+                                            random_state=42)
+        return absicht.Schicht.laden(erkenner=erkenner)
+    raise ValueError("Unbekannter Erkenner: %s" % name)
+
+
+def vergleichen(nachrichten):
+    """Laesst beide Erkenner ueber dieselben Nachrichten laufen"""
+    ergebnisse = dict()
+    for name in ("woerterbuch", "snips"):
+        try:
+            ergebnisse[name] = bewerten(nachrichten, schicht_bauen(name))
+        except Exception as fehler:  # pylint: disable=broad-except
+            print("%s uebersprungen: %s" % (name, fehler))
+    return ergebnisse
+
+
+def gegenueberstellen(ergebnisse):
+    """Stellt die Erkenner nebeneinander"""
+    namen = list(ergebnisse)
+    print("%-24s %s" % ("", "  ".join("%12s" % n for n in namen)))
+    zeilen = [
+        ("Richtig zugeordnet", lambda e: "%d (%.0f %%)"
+         % (e["richtig"], e["trefferquote"] * 100)),
+        ("davon direkt", lambda e: str(e["wege"]["direkt"])),
+        ("davon aufbereitet", lambda e: str(e["wege"]["aufbereitet"])),
+        ("davon durchgereicht", lambda e: str(e["wege"]["durchreichen"])),
+        ("Token gespart", lambda e: "%.0f %%"
+         % (e["token_gespart"] / (e["token_gesamt"] or 1) * 100)),
+        ("Zeit je Aufruf", lambda e: "%.2f ms" % (e["zeit_schnitt"] * 1000)),
+        ("Ablehnung als Zustimmung", lambda e: str(len(e["gefaehrlich"]))),
+    ]
+    for beschriftung, wert in zeilen:
+        print("%-24s %s" % (beschriftung,
+                            "  ".join("%12s" % wert(ergebnisse[n])
+                                      for n in namen)))
+    print()
+    if len(namen) == 2:
+        besser = max(namen, key=lambda n: ergebnisse[n]["trefferquote"])
+        gleich = (ergebnisse[namen[0]]["trefferquote"]
+                  == ergebnisse[namen[1]]["trefferquote"])
+        if gleich:
+            print("Gleichstand — dann bleibt das Woerterbuch.")
+        else:
+            print("Besser: %s" % besser)
+
+
 def main(argumente=None):
     zerleger = argparse.ArgumentParser(
         description="Misst die Absichtsschicht an annotierten Nachrichten")
@@ -181,9 +242,23 @@ def main(argumente=None):
     zerleger.add_argument(
         "--fehler", action="store_true",
         help="jede Abweichung einzeln auflisten, mit Begruendung")
+    zerleger.add_argument(
+        "--erkenner", default="woerterbuch",
+        choices=("woerterbuch", "snips"),
+        help="was unter der Schnittstelle arbeitet")
+    zerleger.add_argument(
+        "--vergleich", action="store_true",
+        help="beide Erkenner nebeneinander stellen")
     gewaehlt = zerleger.parse_args(argumente)
 
-    ergebnis = bewerten(lesen(gewaehlt.datei))
+    nachrichten = lesen(gewaehlt.datei)
+
+    if gewaehlt.vergleich:
+        ergebnisse = vergleichen(nachrichten)
+        gegenueberstellen(ergebnisse)
+        return 1 if any(e["gefaehrlich"] for e in ergebnisse.values()) else 0
+
+    ergebnis = bewerten(nachrichten, schicht_bauen(gewaehlt.erkenner))
     ausgeben(ergebnis, mit_fehlern=gewaehlt.fehler)
     # Ein falsch gelesenes Ja ist ein Abbruchgrund, keine Fussnote.
     return 1 if ergebnis["gefaehrlich"] else 0
